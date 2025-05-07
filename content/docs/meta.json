@@ -17,6 +17,9 @@
     "---UI---",
     "customisation",
     "theme",
-    "search"
+    "search",
+    "components",
+    "mdx",
+    "layouts"
   ]
 }
