@@ -1,5 +1,5 @@
+import { getMDXComponents } from '@/components/custom/mdx-components';
 import * as Preview from '@/components/docs';
-import { CustomMDXContent } from '@/components/shared/custom-mdx-content';
 import {
   HoverCard,
   HoverCardContent,
@@ -87,6 +87,8 @@ export default async function DocPage({ params }: DocPageProps) {
 
   const preview = page.data.preview;
 
+  const MDX = page.data.body;
+
   return (
     <DocsPage
       toc={page.data.toc}
@@ -102,9 +104,8 @@ export default async function DocPage({ params }: DocPageProps) {
         {preview ? <PreviewRenderer preview={preview} /> : null}
 
         {/* MDX Content */}
-        <CustomMDXContent
-          code={page.data.body}
-          customComponents={{
+        <MDX
+          components={getMDXComponents({
             a: ({ href, ...props }: { href?: string; [key: string]: any }) => {
               const found = source.getPageByHref(href ?? '', {
                 dir: page.file.dirname,
@@ -133,7 +134,7 @@ export default async function DocPage({ params }: DocPageProps) {
                 </HoverCard>
               );
             },
-          }}
+          })}
         />
       </DocsBody>
     </DocsPage>

@@ -1,11 +1,7 @@
 import path from 'path';
 import { DEFAULT_LOCALE, LOCALES } from '@/i18n/routing';
 import { defineCollection, defineConfig } from '@content-collections/core';
-import {
-  createDocSchema,
-  createMetaSchema,
-  transformMDX,
-} from '@fumadocs/content-collections/configuration';
+import { transformMDX } from '@fumadocs/content-collections/configuration';
 
 /**
  * 1. Content Collections documentation
@@ -16,25 +12,25 @@ import {
  * 2. Use Content Collections for Fumadocs
  * https://fumadocs.dev/docs/headless/content-collections
  */
-const docs = defineCollection({
-  name: 'docs',
-  directory: 'content/docs',
-  include: '**/*.mdx',
-  schema: (z) => ({
-    ...createDocSchema(z),
-    preview: z.string().optional(),
-    index: z.boolean().default(false),
-  }),
-  transform: transformMDX,
-});
+// const docs = defineCollection({
+//   name: 'docs',
+//   directory: 'content/docs',
+//   include: '**/*.mdx',
+//   schema: (z) => ({
+//     ...createDocSchema(z),
+//     preview: z.string().optional(),
+//     index: z.boolean().default(false),
+//   }),
+//   transform: transformMDX,
+// });
 
-const metas = defineCollection({
-  name: 'meta',
-  directory: 'content/docs',
-  include: '**/meta**.json',
-  parser: 'json',
-  schema: createMetaSchema,
-});
+// const metas = defineCollection({
+//   name: 'meta',
+//   directory: 'content/docs',
+//   include: '**/meta**.json',
+//   parser: 'json',
+//   schema: createMetaSchema,
+// });
 
 /**
  * Blog Author collection
@@ -324,5 +320,5 @@ function extractLocaleAndBase(fileName: string): {
 }
 
 export default defineConfig({
-  collections: [docs, metas, authors, categories, posts, pages, releases],
+  collections: [authors, categories, posts, pages, releases],
 });
