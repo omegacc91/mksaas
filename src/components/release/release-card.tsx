@@ -1,16 +1,16 @@
-import { CustomMDXContent } from '@/components/shared/custom-mdx-content';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { formatDate } from '@/lib/formatter';
 import { CalendarIcon, TagIcon } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 interface ReleaseCardProps {
   title: string;
   description: string;
   date: string;
   version: string;
-  content: any; // MDX content
+  content: ReactNode; // React component
 }
 
 export function ReleaseCard({
@@ -41,7 +41,7 @@ export function ReleaseCard({
       </CardHeader>
       <CardContent>
         <div className="max-w-none prose prose-neutral dark:prose-invert prose-img:rounded-lg">
-          <CustomMDXContent code={content} />
+          {content}
         </div>
       </CardContent>
     </Card>

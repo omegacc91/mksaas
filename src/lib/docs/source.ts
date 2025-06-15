@@ -1,7 +1,8 @@
 import { loader } from 'fumadocs-core/source';
+import { createMDXSource } from 'fumadocs-mdx';
 import * as LucideIcons from 'lucide-react';
 import { createElement } from 'react';
-import { docs } from '../../../.source';
+import { docs, releases } from '../../../.source';
 import { docsI18nConfig } from './i18n';
 
 /**
@@ -28,4 +29,13 @@ export const source = loader({
     console.warn(`Icon not found: ${iconName}`);
     return undefined;
   },
+});
+
+/**
+ * Changelog releases source
+ */
+export const changelog = loader({
+  baseUrl: '/changelog',
+  i18n: docsI18nConfig,
+  source: createMDXSource(releases),
 });

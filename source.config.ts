@@ -1,4 +1,9 @@
-import { defineDocs, frontmatterSchema, metaSchema } from 'fumadocs-mdx/config';
+import {
+  defineCollections,
+  defineDocs,
+  frontmatterSchema,
+  metaSchema,
+} from 'fumadocs-mdx/config';
 import { z } from 'zod';
 
 const customDocsSchema = frontmatterSchema.extend({
@@ -11,9 +16,6 @@ const customMetaSchema = metaSchema.extend({
 });
 
 /**
- * frontmatterSchema.extend causes error: Type instantiation is excessively deep,
- * so we define the schema manually.
- *
  * https://fumadocs.dev/docs/mdx/collections#schema-1
  */
 export const docs = defineDocs({
@@ -24,4 +26,19 @@ export const docs = defineDocs({
   meta: {
     schema: customMetaSchema,
   },
+});
+
+/**
+ * Changelog releases
+ */
+export const releases = defineCollections({
+  type: 'doc',
+  dir: 'content/release',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.string().datetime(),
+    version: z.string(),
+    published: z.boolean().default(true),
+  }),
 });

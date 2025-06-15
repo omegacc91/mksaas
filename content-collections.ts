@@ -252,43 +252,43 @@ export const pages = defineCollection({
  * slug: /release/v1-0-0
  * slugAsParams: v1-0-0
  */
-export const releases = defineCollection({
-  name: 'release',
-  directory: 'content/release',
-  include: '**/*.mdx',
-  schema: (z) => ({
-    title: z.string(),
-    description: z.string(),
-    date: z.string().datetime(),
-    version: z.string(),
-    published: z.boolean().default(true),
-  }),
-  transform: async (data, context) => {
-    // Use Fumadocs transformMDX for consistent MDX processing
-    const transformedData = await transformMDX(data, context);
+// export const releases = defineCollection({
+//   name: 'release',
+//   directory: 'content/release',
+//   include: '**/*.mdx',
+//   schema: (z) => ({
+//     title: z.string(),
+//     description: z.string(),
+//     date: z.string().datetime(),
+//     version: z.string(),
+//     published: z.boolean().default(true),
+//   }),
+//   transform: async (data, context) => {
+//     // Use Fumadocs transformMDX for consistent MDX processing
+//     const transformedData = await transformMDX(data, context);
 
-    // Get the filename from the path
-    const filePath = data._meta.path;
-    const fileName = filePath.split(path.sep).pop() || '';
+//     // Get the filename from the path
+//     const filePath = data._meta.path;
+//     const fileName = filePath.split(path.sep).pop() || '';
 
-    // Extract locale and base from filename
-    const { locale, base } = extractLocaleAndBase(fileName);
-    // console.log(`release processed: ${fileName}, base=${base}, locale=${locale}`);
+//     // Extract locale and base from filename
+//     const { locale, base } = extractLocaleAndBase(fileName);
+//     // console.log(`release processed: ${fileName}, base=${base}, locale=${locale}`);
 
-    // Create the slug and slugAsParams
-    const slug = `/release/${base}`;
-    const slugAsParams = base;
+//     // Create the slug and slugAsParams
+//     const slug = `/release/${base}`;
+//     const slugAsParams = base;
 
-    return {
-      ...data,
-      locale,
-      slug,
-      slugAsParams,
-      body: transformedData.body,
-      toc: transformedData.toc,
-    };
-  },
-});
+//     return {
+//       ...data,
+//       locale,
+//       slug,
+//       slugAsParams,
+//       body: transformedData.body,
+//       toc: transformedData.toc,
+//     };
+//   },
+// });
 
 /**
  * Helper function to extract locale and base name from filename
@@ -320,5 +320,5 @@ function extractLocaleAndBase(fileName: string): {
 }
 
 export default defineConfig({
-  collections: [authors, categories, posts, pages, releases],
+  collections: [authors, categories, posts, pages],
 });
