@@ -1,25 +1,20 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import type { changelogSource } from '@/lib/docs/source';
 import { formatDate } from '@/lib/formatter';
 import { CalendarIcon, TagIcon } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { getMDXComponents } from '../custom/mdx-components';
+
+type ChangelogPage = ReturnType<typeof changelogSource.getPages>[number];
 
 interface ReleaseCardProps {
-  title: string;
-  description: string;
-  date: string;
-  version: string;
-  content: ReactNode; // React component
+  releaseItem: ChangelogPage;
 }
 
-export function ReleaseCard({
-  title,
-  description,
-  date,
-  version,
-  content,
-}: ReleaseCardProps) {
+export function ReleaseCard({ releaseItem }: ReleaseCardProps) {
+  const { title, description, date, version } = releaseItem.data;
+  const MDX = releaseItem.data.body;
   const formattedDate = formatDate(new Date(date));
 
   return (
@@ -41,7 +36,7 @@ export function ReleaseCard({
       </CardHeader>
       <CardContent>
         <div className="max-w-none prose prose-neutral dark:prose-invert prose-img:rounded-lg">
-          {content}
+          <MDX components={getMDXComponents()} />
         </div>
       </CardContent>
     </Card>

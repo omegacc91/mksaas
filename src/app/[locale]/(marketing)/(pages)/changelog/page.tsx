@@ -1,6 +1,6 @@
 import Container from '@/components/layout/container';
 import { ReleaseCard } from '@/components/release/release-card';
-import { changelog } from '@/lib/docs/source';
+import { changelogSource } from '@/lib/docs/source';
 import { constructMetadata } from '@/lib/metadata';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { NextPageProps } from '@/types/next-page-props';
@@ -34,7 +34,7 @@ export default async function ChangelogPage(props: NextPageProps) {
   }
 
   const locale = params.locale as Locale;
-  const localeReleases = changelog.getPages(locale);
+  const localeReleases = changelogSource.getPages(locale);
   const publishedReleases = localeReleases
     .filter((releaseItem) => releaseItem.data.published)
     .sort(
@@ -64,16 +64,10 @@ export default async function ChangelogPage(props: NextPageProps) {
         {/* Releases */}
         <div className="mt-8">
           {publishedReleases.map((releaseItem) => {
-            const MDX = releaseItem.data.body;
-
             return (
               <ReleaseCard
                 key={releaseItem.data.version}
-                title={releaseItem.data.title}
-                description={releaseItem.data.description}
-                date={releaseItem.data.date}
-                version={releaseItem.data.version}
-                content={<MDX />}
+                releaseItem={releaseItem}
               />
             );
           })}

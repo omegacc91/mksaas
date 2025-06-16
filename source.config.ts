@@ -29,11 +29,11 @@ export const docs = defineDocs({
 });
 
 /**
- * Changelog releases
+ * Changelog
  */
-export const releases = defineCollections({
+export const changelog = defineCollections({
   type: 'doc',
-  dir: 'content/release',
+  dir: 'content/changelog',
   schema: z.object({
     title: z.string(),
     description: z.string(),
