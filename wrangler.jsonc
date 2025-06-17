@@ -21,6 +21,9 @@
   // Minification helps to keep the Worker bundle size down and improve start up time.
   "minify": true,
 
+  // Enables Workers Trace Events Logpush for a Worker
+  "logpush": true,
+
   // https://developers.cloudflare.com/workers/wrangler/configuration/#top-level-only-keys
   // Whether Wrangler should keep variables configured in the dashboard on deploy
   "keep_vars": true,
