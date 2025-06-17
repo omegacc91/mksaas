@@ -10,7 +10,10 @@
   "compatibility_flags": [
     // Enable Node.js API
     // see https://developers.cloudflare.com/workers/configuration/compatibility-flags/#nodejs-compatibility-flag
-    "nodejs_compat",
+    // "nodejs_compat",
+    // Enable improved Node.js API with polyfills and native code
+    // see https://blog.cloudflare.com/zh-cn/more-npm-packages-on-cloudflare-workers-combining-polyfills-and-native-code/
+    "nodejs_compat_v2",
     // Enable auto-populating process.env
     // see https://developers.cloudflare.com/workers/configuration/compatibility-flags/#enable-auto-populating-processenv
     "nodejs_compat_populate_process_env",
