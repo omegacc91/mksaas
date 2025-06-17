@@ -75,3 +75,9 @@ const withNextIntl = createNextIntlPlugin();
 const withMDX = createMDX();
 
 export default withMDX(withNextIntl(nextConfig));
+
+// https://opennext.js.org/cloudflare/get-started#12-develop-locally
+import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
+
+// during local development, to access in any of your server code, local versions of Cloudflare bindings
+initOpenNextCloudflareForDev();
