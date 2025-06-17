@@ -3,7 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* 
+/*
  * 1. Themes Documentation
  * https://mksaas.com/docs/themes
 
@@ -14,7 +14,7 @@
  *
  * default theme: Clean Slate
  * https://tweakcn.com/editor/theme
- * 
+ *
  * NOTICE: when you change the theme, you need to check the fonts and keep the animation variables
  *
  * 3. How to Add a Theme Selector to Your Next.js App
@@ -392,4 +392,22 @@ body {
 * {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+/* Fix for Fumadocs empty banner appearing in Cloudflare Worker */
+/* This targets the specific banner issue where empty:hidden doesn't work properly */
+div[class*="border-t"][class*="bg-fd-secondary"]:not(:has(*)):not(
+    [data-content]
+  ) {
+  display: none !important;
+}
+
+/* Fallback for banners with the exact classes found in the issue */
+.border-t.bg-fd-secondary\/50.p-3:empty {
+  display: none !important;
+}
+
+/* Additional safety for any empty Fumadocs banner */
+[class*="fd-secondary"]:empty:not([data-banner-content]) {
+  display: none !important;
 }
