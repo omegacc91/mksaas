@@ -7,7 +7,7 @@ import { createTranslator } from 'use-intl/core';
 
 interface SubscribeNewsletterProps extends BaseEmailProps {}
 
-export function SubscribeNewsletter({
+export default function SubscribeNewsletter({
   locale,
   messages,
 }: SubscribeNewsletterProps) {
@@ -29,5 +29,3 @@ SubscribeNewsletter.PreviewProps = {
   locale: routing.defaultLocale,
   messages: defaultMessages,
 };
-
-export default SubscribeNewsletter;

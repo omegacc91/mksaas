@@ -11,7 +11,7 @@ interface ContactMessageProps extends BaseEmailProps {
   message: string;
 }
 
-export function ContactMessage({
+export default function ContactMessage({
   name,
   email,
   message,
@@ -40,5 +40,3 @@ ContactMessage.PreviewProps = {
   email: 'username@example.com',
   message: 'This is a test message',
 };
-
-export default ContactMessage;

@@ -3,7 +3,7 @@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { LocaleLink } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
-import type { BlogCategory } from '@/types/blog-types';
+import type { BlogCategory } from '@/types';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 

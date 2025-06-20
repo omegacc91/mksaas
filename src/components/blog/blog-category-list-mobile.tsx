@@ -9,7 +9,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import type { BlogCategory } from '@/types/blog-types';
+import type { BlogCategory } from '@/types';
 import { LayoutListIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';

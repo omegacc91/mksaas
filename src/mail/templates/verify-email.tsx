@@ -11,7 +11,12 @@ interface VerifyEmailProps extends BaseEmailProps {
   name: string;
 }
 
-export function VerifyEmail({ url, name, locale, messages }: VerifyEmailProps) {
+export default function VerifyEmail({
+  url,
+  name,
+  locale,
+  messages,
+}: VerifyEmailProps) {
   const t = createTranslator({
     locale,
     messages,
@@ -33,5 +38,3 @@ VerifyEmail.PreviewProps = {
   url: 'https://mksaas.com',
   name: 'username',
 };
-
-export default VerifyEmail;

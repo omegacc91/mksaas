@@ -11,7 +11,7 @@ interface ForgotPasswordProps extends BaseEmailProps {
   name: string;
 }
 
-export function ForgotPassword({
+export default function ForgotPassword({
   url,
   name,
   locale,
@@ -38,5 +38,3 @@ ForgotPassword.PreviewProps = {
   url: 'https://mksaas.com',
   name: 'username',
 };
-
-export default ForgotPassword;

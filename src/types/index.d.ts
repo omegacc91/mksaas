@@ -163,3 +163,15 @@ export type MenuItem = {
 export type NestedMenuItem = MenuItem & {
   items?: MenuItem[];                // The items to display in the nested menu
 };
+
+/**
+ * Blog Category
+ *
+ * we can not pass CategoryType from server component to client component
+ * so we need to define a new type, and use it in the client component
+ */
+export type BlogCategory = {
+  slug: string;
+  name: string;
+  description: string;
+};
