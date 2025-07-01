@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { PricePlan } from '@/payment/types';
 
 /**
  * website config, without translations
@@ -69,6 +70,8 @@ export interface FeaturesConfig {
   enableUpgradeCard?: boolean;        // Whether to enable the upgrade card in the sidebar
   enableAffonsoAffiliate?: boolean;   // Whether to enable affonso affiliate
   enablePromotekitAffiliate?: boolean;   // Whether to enable promotekit affiliate
+  enableDatafastRevenueTrack?: boolean;   // Whether to enable datafast revenue tracking
+  enableTurnstileCaptcha?: boolean;   // Whether to enable turnstile captcha
 }
 
 /**

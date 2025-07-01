@@ -233,6 +233,7 @@ export class StripeProvider implements PaymentProvider {
         success_url: successUrl ?? '',
         cancel_url: cancelUrl ?? '',
         metadata: customMetadata,
+        allow_promotion_codes: price.allowPromotionCode ?? false,
       };
 
       // Add customer to checkout session

@@ -25,20 +25,21 @@ If you found anything that could be improved, please let me know.
 
 ## Repositories
 
-By default, you should have access to all four repositories. If you find that you’re unable to access any of them, please don’t hesitate to reach out to me, and I’ll assist you in resolving the issue.
+By default, you should have access to all 5 repositories. If you find that you’re unable to access any of them, please don’t hesitate to reach out to me, and I’ll assist you in resolving the issue.
 
 - [mksaas-template (ready)](https://github.com/MkSaaSHQ/mksaas-template): https://demo.mksaas.com
 - [mksaas-blog (ready)](https://github.com/MkSaaSHQ/mksaas-blog): https://mksaas.me
 - [mksaas-haitang (ready)](https://github.com/MkSaaSHQ/mksaas-haitang): https://haitang.app
+- [mksaas-outfit (ready)](https://github.com/MkSaaSHQ/mksaas-outfit)
 - [mksaas-app (WIP)](https://github.com/MkSaaSHQ/mksaas-app): https://mksaas.app
 
 ## Notice
 
-> If you have any questions, please [submit an issue](https://github.com/MkSaaSHQ/mksaas-template/issues/new), or contact me at [support@mksaas.com](mailto:support@mksaas.com).
+> If you have any questions, please [submit an issue](https://github.com/MkSaaSHQ/mksaas-template/issues/new), or contact me at [support@mksaas.com](mailto:support@mksaas.com), or join our [discord community](https://mksaas.link/discord) and ask for help there.
 
 > If you want to receive notifications whenever code changes, please click `Watch` button in the top right.
 
-> When submitting any content to the  issues or discussions of the repository, please use **English** as the main Language, so that everyone can read it and help you, thank you for your supports.
+> When submitting any content to the  issues of the repository, please use **English** as the main Language, so that everyone can read it and help you, thank you for your supports.
 
 ## License
 

@@ -1,5 +1,6 @@
 'use server';
 
+import { websiteConfig } from '@/config/website';
 import { findPlanByPlanId } from '@/lib/price-plan';
 import { getSession } from '@/lib/server';
 import { getUrlWithLocale } from '@/lib/urls/urls';
@@ -8,6 +9,7 @@ import type { CreateCheckoutParams } from '@/payment/types';
 import { Routes } from '@/routes';
 import { getLocale } from 'next-intl/server';
 import { createSafeActionClient } from 'next-safe-action';
+import { cookies } from 'next/headers';
 import { z } from 'zod';
 
 // Create a safe action client
@@ -67,11 +69,21 @@ export const createCheckoutAction = actionClient
       }
 
       // Add user id to metadata, so we can get it in the webhook event
-      const customMetadata = {
+      const customMetadata: Record<string, string> = {
         ...metadata,
         userId: session.user.id,
         userName: session.user.name,
       };
+
+      // https://datafa.st/docs/stripe-checkout-api
+      // if datafast analytics is enabled, add the revenue attribution to the metadata
+      if (websiteConfig.features.enableDatafastRevenueTrack) {
+        const cookieStore = await cookies();
+        customMetadata.datafast_visitor_id =
+          cookieStore.get('datafast_visitor_id')?.value ?? '';
+        customMetadata.datafast_session_id =
+          cookieStore.get('datafast_session_id')?.value ?? '';
+      }
 
       // Create the checkout session with localized URLs
       const successUrl = getUrlWithLocale(

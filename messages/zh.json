@@ -203,7 +203,9 @@
       "hidePassword": "隐藏密码",
       "nameRequired": "请输入姓名",
       "emailRequired": "请输入邮箱",
-      "passwordRequired": "请输入密码"
+      "passwordRequired": "请输入密码",
+      "captchaInvalid": "验证码验证失败",
+      "captchaError": "验证码验证出错"
     },
     "forgotPassword": {
       "title": "忘记密码",

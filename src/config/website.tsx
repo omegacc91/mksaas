@@ -37,6 +37,8 @@ export const websiteConfig: WebsiteConfig = {
     enableUpgradeCard: true,
     enableAffonsoAffiliate: false,
     enablePromotekitAffiliate: false,
+    enableDatafastRevenueTrack: false,
+    enableTurnstileCaptcha: true,
   },
   routes: {
     defaultLoginRedirect: '/dashboard',
@@ -119,6 +121,7 @@ export const websiteConfig: WebsiteConfig = {
             priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_LIFETIME!,
             amount: 19900,
             currency: 'USD',
+            allowPromotionCode: true,
           },
         ],
         isFree: false,

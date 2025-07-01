@@ -202,7 +202,9 @@
       "hidePassword": "Hide password",
       "nameRequired": "Please enter your name",
       "emailRequired": "Please enter your email",
-      "passwordRequired": "Please enter your password"
+      "passwordRequired": "Please enter your password",
+      "captchaInvalid": "Captcha verification failed",
+      "captchaError": "Captcha verification error"
     },
     "forgotPassword": {
       "title": "Forgot Password",
