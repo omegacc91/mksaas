@@ -3,7 +3,7 @@ import { UpdateNameCard } from '@/components/settings/profile/update-name-card';
 
 export default function ProfilePage() {
   return (
-    <div className="grid gap-8 md:grid-cols-2">
+    <div className="flex flex-col gap-8">
       <UpdateAvatarCard />
       <UpdateNameCard />
     </div>

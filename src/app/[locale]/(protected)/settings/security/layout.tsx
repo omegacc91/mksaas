@@ -25,18 +25,22 @@ export default async function SecurityLayout({
     <>
       <DashboardHeader breadcrumbs={breadcrumbs} />
 
-      <div className="px-4 lg:px-6 py-16">
-        <div className="max-w-6xl mx-auto space-y-10">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              {t('security.title')}
-            </h1>
-            <p className="text-muted-foreground mt-2">
-              {t('security.description')}
-            </p>
-          </div>
+      <div className="flex flex-1 flex-col">
+        <div className="@container/main flex flex-1 flex-col gap-2">
+          <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+            <div className="px-4 lg:px-6 space-y-10">
+              <div>
+                <h1 className="text-3xl font-bold tracking-tight">
+                  {t('security.title')}
+                </h1>
+                <p className="text-muted-foreground mt-2">
+                  {t('security.description')}
+                </p>
+              </div>
 
-          {children}
+              {children}
+            </div>
+          </div>
         </div>
       </div>
     </>

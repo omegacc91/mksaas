@@ -1,11 +1,21 @@
 import { DashboardHeader } from '@/components/dashboard/dashboard-header';
+import { getSession } from '@/lib/server';
 import { getTranslations } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 
 interface UsersLayoutProps {
   children: React.ReactNode;
 }
 
 export default async function UsersLayout({ children }: UsersLayoutProps) {
+  // if is demo website, allow user to access admin and user pages, but data is fake
+  const isDemo = process.env.NEXT_PUBLIC_DEMO_WEBSITE === 'true';
+  // Check if user is admin
+  const session = await getSession();
+  if (!session || (session.user.role !== 'admin' && !isDemo)) {
+    notFound();
+  }
+
   const t = await getTranslations('Dashboard.admin');
 
   const breadcrumbs = [

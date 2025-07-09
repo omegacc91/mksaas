@@ -2,7 +2,7 @@ import { NewsletterFormCard } from '@/components/settings/notification/newslette
 
 export default function NotificationPage() {
   return (
-    <div className="grid gap-8 md:grid-cols-2">
+    <div className="grid gap-8 @lg/main:grid-cols-2">
       <NewsletterFormCard />
     </div>
   );
