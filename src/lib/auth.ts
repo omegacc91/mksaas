@@ -163,17 +163,23 @@ export function getLocaleFromRequest(request?: Request): Locale {
  */
 async function onCreateUser(user: User) {
   // Auto subscribe user to newsletter after sign up if enabled in website config
+  // Add a delay to avoid hitting Resend's 1 email per second limit
   if (user.email && websiteConfig.newsletter.autoSubscribeAfterSignUp) {
-    try {
-      const subscribed = await subscribe(user.email);
-      if (!subscribed) {
-        console.error(`Failed to subscribe user ${user.email} to newsletter`);
-      } else {
-        console.log(`User ${user.email} subscribed to newsletter`);
+    // Delay newsletter subscription by 2 seconds to avoid rate limiting
+    // This ensures the email verification email is sent first
+    // Using 2 seconds instead of 1 to provide extra buffer for network delays
+    setTimeout(async () => {
+      try {
+        const subscribed = await subscribe(user.email);
+        if (!subscribed) {
+          console.error(`Failed to subscribe user ${user.email} to newsletter`);
+        } else {
+          console.log(`User ${user.email} subscribed to newsletter`);
+        }
+      } catch (error) {
+        console.error('Newsletter subscription error:', error);
       }
-    } catch (error) {
-      console.error('Newsletter subscription error:', error);
-    }
+    }, 2000);
   }
 
   // Add register gift credits to the user if enabled in website config
