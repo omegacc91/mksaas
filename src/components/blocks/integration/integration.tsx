@@ -90,7 +90,7 @@ const IntegrationCard = ({
   const t = useTranslations('HomePage.integration');
 
   return (
-    <Card className="p-6 hover:bg-accent dark:hover:bg-accent">
+    <Card className="p-6 bg-transparent hover:bg-accent dark:hover:bg-card">
       <div className="relative">
         <div className="*:size-10">{children}</div>
 

@@ -118,7 +118,10 @@ export default function TestimonialsSection() {
           {testimonialChunks.map((chunk, chunkIndex) => (
             <div key={chunkIndex} className="space-y-3">
               {chunk.map(({ name, role, quote, image }, index) => (
-                <Card key={index} className="shadow-none">
+                <Card
+                  key={index}
+                  className="shadow-none bg-transparent hover:bg-accent dark:hover:bg-card"
+                >
                   <CardContent className="grid grid-cols-[auto_1fr] gap-3 pt-4">
                     <Avatar className="size-9 border-2 border-gray-200">
                       <AvatarImage

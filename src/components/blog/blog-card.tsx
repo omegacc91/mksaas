@@ -41,7 +41,7 @@ export default function BlogCard({ locale, post }: BlogCardProps) {
                     {blogCategories.map((category, index) => (
                       <span
                         key={`${category?.slugs[0]}-${index}`}
-                        className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md"
+                        className="text-xs font-medium text-white bg-black/50 bg-opacity-50 px-2 py-1 rounded-md"
                       >
                         {category?.data.name}
                       </span>

@@ -17,11 +17,11 @@ export default function Integration2Section() {
 
   return (
     <section>
-      <div className="bg-background py-24">
+      <div className="bg-muted/50 py-24">
         <div className="mx-auto max-w-5xl px-6">
           <div className="grid items-center sm:grid-cols-2">
-            <div className="dark:bg-muted/50 relative mx-auto w-fit">
-              <div className="bg-radial to-muted dark:to-background absolute inset-0 z-10 from-transparent to-75%" />
+            <div className="relative mx-auto w-fit">
+              {/* <div className="bg-radial to-muted/50 dark:to-muted/50 absolute inset-0 z-10 from-transparent to-75%" /> */}
               <div className="mx-auto mb-2 flex w-fit justify-center gap-2">
                 <IntegrationCard>
                   <Gemini />
@@ -35,8 +35,8 @@ export default function Integration2Section() {
                   <MagicUI />
                 </IntegrationCard>
                 <IntegrationCard
-                  borderClassName="shadow-black-950/10 shadow-xl border-black/25 dark:border-white/25"
-                  className="dark:bg-white/10"
+                  borderClassName="border-black/25 dark:border-white/25"
+                  className="dark:bg-muted"
                 >
                   <Logo />
                 </IntegrationCard>
@@ -61,7 +61,7 @@ export default function Integration2Section() {
               </h2>
               <p className="text-muted-foreground">{t('description')}</p>
 
-              <div className="mt-12 flex flex-wrap justify-start gap-4">
+              <div className="mt-12 flex flex-wrap justify-center md:justify-start gap-4">
                 <Button asChild size="lg">
                   <LocaleLink href="/">
                     <span>{t('primaryButton')}</span>
@@ -94,16 +94,13 @@ const IntegrationCard = ({
   return (
     <div
       className={cn(
-        'bg-background relative flex size-20 rounded-xl dark:bg-transparent',
+        'relative flex size-20 rounded-xl bg-muted dark:bg-muted/50',
         className
       )}
     >
       <div
         role="presentation"
-        className={cn(
-          'absolute inset-0 rounded-xl border border-black/20 dark:border-white/25',
-          borderClassName
-        )}
+        className={cn('absolute inset-0 rounded-xl', borderClassName)}
       />
       <div className="relative z-20 m-auto size-fit *:size-8">{children}</div>
     </div>

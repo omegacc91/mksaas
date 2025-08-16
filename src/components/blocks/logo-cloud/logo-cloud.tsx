@@ -4,7 +4,7 @@ export default function LogoCloudSection() {
   const t = useTranslations('HomePage.logocloud');
 
   return (
-    <section id="logo-cloud" className="bg-background px-4 py-16">
+    <section id="logo-cloud" className="bg-muted/50 px-4 py-16">
       <div className="mx-auto max-w-5xl px-6">
         <h2 className="text-center text-xl font-medium">{t('title')}</h2>
 
