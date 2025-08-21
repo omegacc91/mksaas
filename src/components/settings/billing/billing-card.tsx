@@ -14,7 +14,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPricePlans } from '@/config/price-config';
 import { useMounted } from '@/hooks/use-mounted';
-import { usePayment } from '@/hooks/use-payment';
+import { useCurrentPlan } from '@/hooks/use-payment';
 import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';
@@ -33,34 +33,37 @@ export default function BillingCard() {
   const hasHandledSession = useRef(false);
   const mounted = useMounted();
 
-  const {
-    isLoading: isLoadingPayment,
-    error: loadPaymentError,
-    subscription,
-    currentPlan: currentPlanFromStore,
-    fetchPayment,
-  } = usePayment();
-
   // Get user session for customer ID
   const { data: session, isPending: isLoadingSession } =
     authClient.useSession();
   const currentUser = session?.user;
 
+  // TanStack Query hook for current plan and subscription
+  const {
+    data: paymentData,
+    isLoading: isLoadingPayment,
+    error: loadPaymentError,
+    refetch: refetchPayment,
+  } = useCurrentPlan(currentUser?.id);
+
+  const currentPlan = paymentData?.currentPlan;
+  const subscription = paymentData?.subscription;
+
   // Get price plans with translations - must be called here to maintain hook order
   const pricePlans = getPricePlans();
   const plans = Object.values(pricePlans);
 
-  // Convert current plan from store to a plan with translations
-  const currentPlan = currentPlanFromStore
-    ? plans.find((plan) => plan.id === currentPlanFromStore?.id)
+  // Convert current plan to a plan with translations
+  const currentPlanWithTranslations = currentPlan
+    ? plans.find((plan) => plan.id === currentPlan?.id)
     : null;
-  const isFreePlan = currentPlan?.isFree || false;
-  const isLifetimeMember = currentPlan?.isLifetime || false;
+  const isFreePlan = currentPlanWithTranslations?.isFree || false;
+  const isLifetimeMember = currentPlanWithTranslations?.isLifetime || false;
 
   // Get subscription price details
   const currentPrice =
     subscription &&
-    currentPlan?.prices.find(
+    currentPlanWithTranslations?.prices.find(
       (price) => price.priceId === subscription?.priceId
     );
 
@@ -77,8 +80,8 @@ export default function BillingCard() {
   // Retry payment data fetching
   const handleRetry = useCallback(() => {
     // console.log('handleRetry, refetch payment info');
-    fetchPayment(true);
-  }, [fetchPayment]);
+    refetchPayment();
+  }, [refetchPayment]);
 
   // Check for payment success and show success message
   useEffect(() => {
@@ -132,7 +135,9 @@ export default function BillingCard() {
           <CardDescription>{t('currentPlan.description')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 flex-1">
-          <div className="text-destructive text-sm">{loadPaymentError}</div>
+          <div className="text-destructive text-sm">
+            {loadPaymentError?.message}
+          </div>
         </CardContent>
         <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
           <Button
@@ -149,7 +154,7 @@ export default function BillingCard() {
   }
 
   // currentPlan maybe null, so we need to check if it is null
-  if (!currentPlan) {
+  if (!currentPlanWithTranslations) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
@@ -187,7 +192,9 @@ export default function BillingCard() {
       <CardContent className="space-y-4 flex-1">
         {/* Plan name and status */}
         <div className="flex items-center justify-start space-x-4">
-          <div className="text-3xl font-medium">{currentPlan?.name}</div>
+          <div className="text-3xl font-medium">
+            {currentPlanWithTranslations?.name}
+          </div>
           {subscription &&
             (subscription.status === 'trialing' ||
               subscription.status === 'active') && (

@@ -1,6 +1,5 @@
 'use client';
 
-import { getCreditStatsAction } from '@/actions/get-credit-stats';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -12,17 +11,18 @@ import {
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { websiteConfig } from '@/config/website';
-import { useCredits } from '@/hooks/use-credits';
+import { useCreditBalance, useCreditStats } from '@/hooks/use-credits';
 import { useMounted } from '@/hooks/use-mounted';
-import { usePayment } from '@/hooks/use-payment';
+import { useCurrentPlan } from '@/hooks/use-payment';
 import { useLocaleRouter } from '@/i18n/navigation';
+import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
 import { RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 
 /**
@@ -40,50 +40,41 @@ export default function CreditsBalanceCard() {
   const hasHandledSession = useRef(false);
   const mounted = useMounted();
 
-  // Use the credits hook to get balance
+  // Use TanStack Query hooks for credits
   const {
-    balance,
+    data: balance = 0,
     isLoading: isLoadingBalance,
-    error,
-    fetchCredits,
-  } = useCredits();
+    error: balanceError,
+    refetch: refetchBalance,
+  } = useCreditBalance();
 
   // Get payment info to check plan type
-  const { currentPlan } = usePayment();
+  const { data: session } = authClient.useSession();
+  const { data: paymentData } = useCurrentPlan(session?.user?.id);
+  const currentPlan = paymentData?.currentPlan;
 
-  // State for credit statistics
-  const [creditStats, setCreditStats] = useState<{
-    expiringCredits: {
-      amount: number;
-      earliestExpiration: string | Date | null;
-    };
-    subscriptionCredits: { amount: number };
-    lifetimeCredits: { amount: number };
-  } | null>(null);
-  const [isLoadingStats, setIsLoadingStats] = useState(true);
+  // TanStack Query hook for credit statistics
+  const {
+    data: creditStats,
+    isLoading: isLoadingStats,
+    error: statsError,
+    refetch: refetchStats,
+  } = useCreditStats();
 
-  // Fetch credit statistics
-  const fetchCreditStats = useCallback(async () => {
-    console.log('fetchCreditStats, fetch start');
-    setIsLoadingStats(true);
-    try {
-      const result = await getCreditStatsAction();
-      if (result?.data?.success && result.data.data) {
-        setCreditStats(result.data.data);
-      } else {
-        console.error('fetchCreditStats, failed to fetch credit stats', result);
-      }
-    } catch (error) {
-      console.error('fetchCreditStats, error:', error);
-    } finally {
-      setIsLoadingStats(false);
-    }
-  }, []);
+  // Handle payment success after credits purchase
+  const handlePaymentSuccess = useCallback(async () => {
+    // Use queueMicrotask to avoid React rendering conflicts
+    queueMicrotask(() => {
+      toast.success(t('creditsAdded'));
+    });
 
-  // Fetch stats on component mount
-  useEffect(() => {
-    fetchCreditStats();
-  }, []);
+    // Wait for webhook to process (simplified approach)
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Force refresh data
+    refetchBalance();
+    refetchStats();
+  }, [t, refetchBalance, refetchStats]);
 
   // Check for payment success and show success message
   useEffect(() => {
@@ -91,35 +82,25 @@ export default function CreditsBalanceCard() {
     if (sessionId && !hasHandledSession.current) {
       hasHandledSession.current = true;
 
-      setTimeout(() => {
-        // Show success toast and refresh data after payment
-        toast.success(t('creditsAdded'));
-
-        // Force refresh credits data to show updated balance
-        fetchCredits(true);
-        // Refresh credit stats
-        fetchCreditStats();
-      }, 0);
-
-      // Clean up URL parameters
+      // Clean up URL parameters first
       const url = new URL(window.location.href);
       url.searchParams.delete('credits_session_id');
       localeRouter.replace(Routes.SettingsCredits + url.search);
-    }
-  }, [searchParams, localeRouter, fetchCredits, fetchCreditStats, t]);
 
-  // Retry all data fetching
+      // Handle payment success
+      handlePaymentSuccess();
+    }
+  }, [searchParams, localeRouter, handlePaymentSuccess]);
+
+  // Retry all data fetching using refetch methods
   const handleRetry = useCallback(() => {
-    // console.log('handleRetry, refetch credits data');
-    // Force refresh credits balance (ignore cache)
-    fetchCredits(true);
-    // Refresh credit stats
-    fetchCreditStats();
-  }, [fetchCredits, fetchCreditStats]);
+    // Use refetch methods for immediate data refresh
+    refetchBalance();
+    refetchStats();
+  }, [refetchBalance, refetchStats]);
 
   // Render loading skeleton
-  const isPageLoading = isLoadingBalance || isLoadingStats;
-  if (!mounted || isPageLoading) {
+  if (!mounted || isLoadingBalance || isLoadingStats) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
@@ -140,7 +121,7 @@ export default function CreditsBalanceCard() {
   }
 
   // Render error state
-  if (error) {
+  if (balanceError || statsError) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
@@ -148,7 +129,9 @@ export default function CreditsBalanceCard() {
           <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 flex-1">
-          <div className="text-destructive text-sm">{error}</div>
+          <div className="text-destructive text-sm">
+            {balanceError?.message || statsError?.message}
+          </div>
         </CardContent>
         <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
           <Button

@@ -1,7 +1,7 @@
 'use client';
 
 import { websiteConfig } from '@/config/website';
-import { useCredits } from '@/hooks/use-credits';
+import { useCreditBalance } from '@/hooks/use-credits';
 import { useLocaleRouter } from '@/i18n/navigation';
 import { Routes } from '@/routes';
 import { CoinsIcon, Loader2Icon } from 'lucide-react';
@@ -16,8 +16,8 @@ export function CreditsBalanceMenu() {
   const t = useTranslations('Marketing.avatar');
   const router = useLocaleRouter();
 
-  // Use the new useCredits hook
-  const { balance, isLoading } = useCredits();
+  // Use TanStack Query hook for credit balance
+  const { data: balance = 0, isLoading } = useCreditBalance();
 
   const handleClick = () => {
     router.push(Routes.SettingsCredits);

@@ -1,12 +1,10 @@
 'use client';
 
-import { getCreditTransactionsAction } from '@/actions/get-credit-transactions';
-import type { CreditTransaction } from '@/components/settings/credits/credit-transactions-table';
 import { CreditTransactionsTable } from '@/components/settings/credits/credit-transactions-table';
+import { useCreditTransactions } from '@/hooks/use-credits';
 import type { SortingState } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
-import { useCallback, useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useState } from 'react';
 
 /**
  * Credit transactions component
@@ -16,57 +14,25 @@ export function CreditTransactions() {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [search, setSearch] = useState('');
-  const [data, setData] = useState<CreditTransaction[]>([]);
-  const [total, setTotal] = useState(0);
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'createdAt', desc: true },
   ]);
-  const [loading, setLoading] = useState(false);
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const result = await getCreditTransactionsAction({
-        pageIndex,
-        pageSize,
-        search,
-        sorting,
-      });
-
-      if (result?.data?.success) {
-        setData(result.data.data?.items || []);
-        setTotal(result.data.data?.total || 0);
-      } else {
-        const errorMessage = result?.data?.error || t('error');
-        toast.error(errorMessage);
-        setData([]);
-        setTotal(0);
-      }
-    } catch (error) {
-      console.error(
-        'CreditTransactions, fetch credit transactions error:',
-        error
-      );
-      toast.error(t('error'));
-      setData([]);
-      setTotal(0);
-    } finally {
-      setLoading(false);
-    }
-  }, [pageIndex, pageSize, search, sorting]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const { data, isLoading } = useCreditTransactions(
+    pageIndex,
+    pageSize,
+    search,
+    sorting
+  );
 
   return (
     <CreditTransactionsTable
-      data={data}
-      total={total}
+      data={data?.items || []}
+      total={data?.total || 0}
       pageIndex={pageIndex}
       pageSize={pageSize}
       search={search}
-      loading={loading}
+      loading={isLoading}
       onSearch={setSearch}
       onPageChange={setPageIndex}
       onPageSizeChange={setPageSize}

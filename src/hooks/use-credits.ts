@@ -1,66 +1,121 @@
-import { websiteConfig } from '@/config/website';
-import { authClient } from '@/lib/auth-client';
-import { useCreditsStore } from '@/stores/credits-store';
-import { useCallback, useEffect } from 'react';
+import { consumeCreditsAction } from '@/actions/consume-credits';
+import { getCreditBalanceAction } from '@/actions/get-credit-balance';
+import { getCreditStatsAction } from '@/actions/get-credit-stats';
+import { getCreditTransactionsAction } from '@/actions/get-credit-transactions';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { SortingState } from '@tanstack/react-table';
 
-/**
- * Hook for accessing and managing credits state
- *
- * This hook provides access to the credits state and methods to manage it.
- * It also automatically fetches credits information when the user changes.
- * Only works when credits are enabled in the website configuration.
- */
-export function useCredits() {
-  // Return default values if credits are disabled
-  if (!websiteConfig.credits.enableCredits) {
-    return {
-      balance: 0,
-      isLoading: false,
-      error: null,
-      fetchCredits: () => Promise.resolve(),
-      consumeCredits: () => Promise.resolve(false),
-      hasEnoughCredits: () => false,
-    };
-  }
+// Query keys
+export const creditsKeys = {
+  all: ['credits'] as const,
+  balance: () => [...creditsKeys.all, 'balance'] as const,
+  stats: () => [...creditsKeys.all, 'stats'] as const,
+  transactions: () => [...creditsKeys.all, 'transactions'] as const,
+  transactionsList: (filters: {
+    pageIndex: number;
+    pageSize: number;
+    search: string;
+    sorting: SortingState;
+  }) => [...creditsKeys.transactions(), filters] as const,
+};
 
-  const {
-    balance,
-    isLoading,
-    error,
-    fetchCredits: fetchCreditsFromStore,
-    consumeCredits,
-  } = useCreditsStore();
-
-  const { data: session } = authClient.useSession();
-
-  const fetchCredits = useCallback(
-    (force = false) => {
-      const currentUser = session?.user;
-      if (currentUser) {
-        fetchCreditsFromStore(currentUser, force);
+// Hook to fetch credit balance
+export function useCreditBalance() {
+  return useQuery({
+    queryKey: creditsKeys.balance(),
+    queryFn: async () => {
+      console.log('Fetching credit balance...');
+      const result = await getCreditBalanceAction();
+      if (!result?.data?.success) {
+        throw new Error('Failed to fetch credit balance');
       }
+      console.log('Credit balance fetched:', result.data.credits);
+      return result.data.credits || 0;
     },
-    [session?.user, fetchCreditsFromStore]
-  );
+  });
+}
 
-  useEffect(() => {
-    const currentUser = session?.user;
-    if (currentUser) {
-      fetchCreditsFromStore(currentUser);
-    }
-  }, [session?.user, fetchCreditsFromStore]);
+// Hook to fetch credit statistics
+export function useCreditStats() {
+  return useQuery({
+    queryKey: creditsKeys.stats(),
+    queryFn: async () => {
+      console.log('Fetching credit stats...');
+      const result = await getCreditStatsAction();
+      if (!result?.data?.success) {
+        throw new Error(result?.data?.error || 'Failed to fetch credit stats');
+      }
+      console.log('Credit stats fetched:', result.data.data);
+      return result.data.data;
+    },
+  });
+}
 
-  return {
-    // State
-    balance,
-    isLoading,
-    error,
+// Hook to consume credits
+export function useConsumeCredits() {
+  const queryClient = useQueryClient();
 
-    // Methods
-    fetchCredits,
-    consumeCredits,
+  return useMutation({
+    mutationFn: async ({
+      amount,
+      description,
+    }: {
+      amount: number;
+      description: string;
+    }) => {
+      const result = await consumeCreditsAction({
+        amount,
+        description,
+      });
+      if (!result?.data?.success) {
+        throw new Error(result?.data?.error || 'Failed to consume credits');
+      }
+      return result.data;
+    },
+    onSuccess: () => {
+      // Invalidate credit balance and stats after consuming credits
+      queryClient.invalidateQueries({
+        queryKey: creditsKeys.balance(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: creditsKeys.stats(),
+      });
+    },
+  });
+}
 
-    // Helper methods
-    hasEnoughCredits: (amount: number) => balance >= amount,
-  };
+// Hook to fetch credit transactions with pagination, search, and sorting
+export function useCreditTransactions(
+  pageIndex: number,
+  pageSize: number,
+  search: string,
+  sorting: SortingState
+) {
+  return useQuery({
+    queryKey: creditsKeys.transactionsList({
+      pageIndex,
+      pageSize,
+      search,
+      sorting,
+    }),
+    queryFn: async () => {
+      const result = await getCreditTransactionsAction({
+        pageIndex,
+        pageSize,
+        search,
+        sorting,
+      });
+
+      if (!result?.data?.success) {
+        throw new Error(
+          result?.data?.error || 'Failed to fetch credit transactions'
+        );
+      }
+
+      return {
+        items: result.data.data?.items || [],
+        total: result.data.data?.total || 0,
+      };
+    },
+  });
 }

@@ -9,8 +9,9 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { websiteConfig } from '@/config/website';
-import { usePayment } from '@/hooks/use-payment';
+import { useCurrentPlan } from '@/hooks/use-payment';
 import { LocaleLink } from '@/i18n/navigation';
+import { authClient } from '@/lib/auth-client';
 import { Routes } from '@/routes';
 import { SparklesIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -23,14 +24,16 @@ export function UpgradeCard() {
 
   const t = useTranslations('Dashboard.upgrade');
   const [mounted, setMounted] = useState(false);
-  const { isLoading, currentPlan, subscription } = usePayment();
+  const { data: session } = authClient.useSession();
+  const { data: paymentData, isLoading } = useCurrentPlan(session?.user?.id);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   // Don't show the upgrade card if the user has a lifetime membership or a subscription
-  const isMember = currentPlan?.isLifetime || !!subscription;
+  const isMember =
+    paymentData?.currentPlan?.isLifetime || !!paymentData?.subscription;
 
   if (!mounted || isLoading || isMember) {
     return null;
