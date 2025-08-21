@@ -601,8 +601,7 @@
           "creditsAdded": "Credits have been added to your account",
           "viewTransactions": "View Credit Transactions",
           "retry": "Retry",
-          "subscriptionCredits": "{credits} credits from subscription this month",
-          "lifetimeCredits": "{credits} credits from lifetime plan this month",
+
           "expiringCredits": "{credits} credits expiring on {date}"
         },
         "packages": {

@@ -13,7 +13,6 @@ import {
 import { getAvatarLinks } from '@/config/avatar-config';
 import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
-import { usePaymentStore } from '@/stores/payment-store';
 import type { User } from 'better-auth';
 import { LogOutIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -29,8 +28,6 @@ export function UserButtonMobile({ user }: UserButtonProps) {
   const avatarLinks = getAvatarLinks();
   const localeRouter = useLocaleRouter();
   const [open, setOpen] = useState(false);
-  const { resetState } = usePaymentStore();
-
   const closeDrawer = () => {
     setOpen(false);
   };
@@ -40,8 +37,7 @@ export function UserButtonMobile({ user }: UserButtonProps) {
       fetchOptions: {
         onSuccess: () => {
           console.log('sign out success');
-          // Reset payment state on sign out
-          resetState();
+          // TanStack Query automatically handles cache invalidation on sign out
           localeRouter.replace('/');
         },
         onError: (error) => {
@@ -64,7 +60,7 @@ export function UserButtonMobile({ user }: UserButtonProps) {
       <DrawerPortal>
         <DrawerOverlay className="fixed inset-0 z-40 bg-background/50" />
         <DrawerContent
-          className="fixed inset-x-0 bottom-0 z-50 mt-24 
+          className="fixed inset-x-0 bottom-0 z-50 mt-24
             overflow-hidden rounded-t-[10px] border bg-background px-3 text-sm"
         >
           <DrawerHeader>

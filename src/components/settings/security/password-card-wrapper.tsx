@@ -10,10 +10,10 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useHasCredentialProvider } from '@/hooks/use-auth';
 import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
 
 /**
  * PasswordCardWrapper renders either:
@@ -24,38 +24,15 @@ import { useEffect, useState } from 'react';
  */
 export function PasswordCardWrapper() {
   const { data: session } = authClient.useSession();
-  const [hasCredentialProvider, setHasCredentialProvider] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { hasCredentialProvider, isLoading, error } = useHasCredentialProvider(
+    session?.user?.id
+  );
 
-  useEffect(() => {
-    const checkCredentialProvider = async () => {
-      if (!session?.user) {
-        setIsLoading(false);
-        return;
-      }
-
-      try {
-        // Get the user's linked accounts
-        const accounts = await authClient.listAccounts();
-        // console.log('accounts', accounts);
-
-        // Check if the response is successful and contains accounts data
-        if ('data' in accounts && Array.isArray(accounts.data)) {
-          // Check if any account has a credential provider (provider === 'credential')
-          const hasCredential = accounts.data.some(
-            (account) => account.provider === 'credential'
-          );
-          setHasCredentialProvider(hasCredential);
-        }
-      } catch (error) {
-        console.error('Error checking credential provider:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkCredentialProvider();
-  }, [session]);
+  // Handle error state
+  if (error) {
+    console.error('check credential provider error:', error);
+    return null;
+  }
 
   // Don't render anything while loading
   if (isLoading) {

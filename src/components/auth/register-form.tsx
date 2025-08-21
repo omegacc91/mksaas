@@ -22,7 +22,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { EyeIcon, EyeOffIcon, Loader2Icon } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import * as z from 'zod';
 import { Captcha } from '../shared/captcha';
@@ -51,6 +51,7 @@ export const RegisterForm = ({
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, setIsPending] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const captchaRef = useRef<any>(null);
 
   // Check if credential login is enabled
   const credentialLoginEnabled = websiteConfig.auth.enableCredentialLogin;
@@ -91,6 +92,15 @@ export const RegisterForm = ({
     name: 'captchaToken',
   });
 
+  // Function to reset captcha
+  const resetCaptcha = () => {
+    form.setValue('captchaToken', '');
+    // Try to reset the Turnstile widget if available
+    if (captchaRef.current && typeof captchaRef.current.reset === 'function') {
+      captchaRef.current.reset();
+    }
+  };
+
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     // Validate captcha token if turnstile is enabled and site key is available
     if (captchaConfigured && values.captchaToken) {
@@ -106,6 +116,8 @@ export const RegisterForm = ({
         console.error('register, captcha invalid:', values.captchaToken);
         const errorMessage = captchaResult?.data?.error || t('captchaInvalid');
         setError(errorMessage);
+        setIsPending(false);
+        resetCaptcha(); // Reset captcha on validation failure
         return;
       }
     }
@@ -148,6 +160,10 @@ export const RegisterForm = ({
           // sign up fail, display the error message
           console.error('register, error:', ctx.error);
           setError(`${ctx.error.status}: ${ctx.error.message}`);
+          // Reset captcha on registration error
+          if (captchaConfigured) {
+            resetCaptcha();
+          }
         },
       }
     );
@@ -247,6 +263,7 @@ export const RegisterForm = ({
             <FormSuccess message={success} />
             {captchaConfigured && (
               <Captcha
+                ref={captchaRef}
                 onSuccess={(token) => form.setValue('captchaToken', token)}
                 validationError={form.formState.errors.captchaToken?.message}
               />

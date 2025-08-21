@@ -6,7 +6,6 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -21,13 +20,12 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { authClient } from '@/lib/auth-client';
+import { useBanUser, useUnbanUser } from '@/hooks/use-users';
 import type { User } from '@/lib/auth-types';
 import { isDemoWebsite } from '@/lib/demo';
 import { formatDate } from '@/lib/formatter';
 import { getStripeDashboardCustomerUrl } from '@/lib/urls/urls';
 import { cn } from '@/lib/utils';
-import { useUsersStore } from '@/stores/users-store';
 import {
   CalendarIcon,
   Loader2Icon,
@@ -47,11 +45,13 @@ interface UserDetailViewerProps {
 export function UserDetailViewer({ user }: UserDetailViewerProps) {
   const t = useTranslations('Dashboard.admin.users');
   const isMobile = useIsMobile();
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const [banReason, setBanReason] = useState(t('ban.defaultReason'));
   const [banExpiresAt, setBanExpiresAt] = useState<Date | undefined>();
-  const triggerRefresh = useUsersStore((state) => state.triggerRefresh);
+
+  // TanStack Query mutations
+  const banUserMutation = useBanUser();
+  const unbanUserMutation = useUnbanUser();
 
   // show fake data in demo website
   const isDemo = isDemoWebsite();
@@ -67,11 +67,10 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
       return;
     }
 
-    setIsLoading(true);
     setError('');
 
     try {
-      await authClient.admin.banUser({
+      await banUserMutation.mutateAsync({
         userId: user.id,
         banReason,
         banExpiresIn: banExpiresAt
@@ -83,15 +82,11 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
       // Reset form
       setBanReason('');
       setBanExpiresAt(undefined);
-      // Trigger refresh
-      triggerRefresh();
     } catch (err) {
       const error = err as Error;
       console.error('Failed to ban user:', error);
       setError(error.message || t('ban.error'));
       toast.error(error.message || t('ban.error'));
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -101,24 +96,19 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
       return;
     }
 
-    setIsLoading(true);
     setError('');
 
     try {
-      await authClient.admin.unbanUser({
+      await unbanUserMutation.mutateAsync({
         userId: user.id,
       });
 
       toast.success(t('unban.success'));
-      // Trigger refresh
-      triggerRefresh();
     } catch (err) {
       const error = err as Error;
       console.error('Failed to unban user:', error);
       setError(error.message || t('unban.error'));
       toast.error(error.message || t('unban.error'));
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -166,7 +156,7 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
                 {user.role === 'admin' ? t('admin') : t('user')}
               </Badge>
               {/* email verified */}
-              <Badge variant="outline" className="px-1.5 hover:bg-accent">
+              {/* <Badge variant="outline" className="px-1.5 hover:bg-accent">
                 {user.emailVerified ? (
                   <MailCheckIcon className="stroke-green-500 dark:stroke-green-400" />
                 ) : (
@@ -175,7 +165,7 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
                 {user.emailVerified
                   ? t('email.verified')
                   : t('email.unverified')}
-              </Badge>
+              </Badge> */}
 
               {/* user banned */}
               <div className="flex items-center gap-2">
@@ -196,15 +186,23 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
                 <span className="text-muted-foreground text-xs">
                   {t('columns.email')}:
                 </span>
-                <span
-                  className="break-words cursor-pointer hover:bg-accent px-2 py-1 rounded border"
-                  onClick={() => {
-                    navigator.clipboard.writeText(user.email!);
-                    toast.success(t('emailCopied'));
-                  }}
-                >
-                  {user.email}
-                </span>
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="outline"
+                    className="text-sm px-1.5 cursor-pointer hover:bg-accent"
+                    onClick={() => {
+                      navigator.clipboard.writeText(user.email);
+                      toast.success(t('emailCopied'));
+                    }}
+                  >
+                    {user.emailVerified ? (
+                      <MailCheckIcon className="stroke-green-500 dark:stroke-green-400" />
+                    ) : (
+                      <MailQuestionIcon className="stroke-red-500 dark:stroke-red-400" />
+                    )}
+                    {user.email}
+                  </Badge>
+                </div>
               </div>
             )}
 
@@ -256,10 +254,10 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
               <Button
                 variant="destructive"
                 onClick={handleUnban}
-                disabled={isLoading || isDemo}
+                disabled={unbanUserMutation.isPending || isDemo}
                 className="mt-4 cursor-pointer"
               >
-                {isLoading && (
+                {unbanUserMutation.isPending && (
                   <Loader2Icon className="mr-2 size-4 animate-spin" />
                 )}
                 {t('unban.button')}
@@ -315,10 +313,10 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
               <Button
                 type="submit"
                 variant="destructive"
-                disabled={isLoading || !banReason || isDemo}
+                disabled={banUserMutation.isPending || !banReason || isDemo}
                 className="mt-4 cursor-pointer"
               >
-                {isLoading && (
+                {banUserMutation.isPending && (
                   <Loader2Icon className="mr-2 size-4 animate-spin" />
                 )}
                 {t('ban.button')}

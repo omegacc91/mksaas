@@ -23,7 +23,6 @@ import { useLocalePathname, useLocaleRouter } from '@/i18n/navigation';
 import { LOCALES, routing } from '@/i18n/routing';
 import { authClient } from '@/lib/auth-client';
 import { useLocaleStore } from '@/stores/locale-store';
-import { usePaymentStore } from '@/stores/payment-store';
 import type { User } from 'better-auth';
 import {
   ChevronsUpDown,
@@ -55,7 +54,6 @@ export function SidebarUser({ user, className }: SidebarUserProps) {
   const pathname = useLocalePathname();
   const params = useParams();
   const { currentLocale, setCurrentLocale } = useLocaleStore();
-  const { resetState } = usePaymentStore();
   const [, startTransition] = useTransition();
   const t = useTranslations();
 
@@ -81,8 +79,7 @@ export function SidebarUser({ user, className }: SidebarUserProps) {
       fetchOptions: {
         onSuccess: () => {
           console.log('sign out success');
-          // Reset payment state on sign out
-          resetState();
+          // TanStack Query automatically handles cache invalidation on sign out
           router.replace('/');
         },
         onError: (error) => {
@@ -100,7 +97,7 @@ export function SidebarUser({ user, className }: SidebarUserProps) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="cursor-pointer data-[state=open]:bg-sidebar-accent 
+              className="cursor-pointer data-[state=open]:bg-sidebar-accent
               data-[state=open]:text-sidebar-accent-foreground"
             >
               <UserAvatar

@@ -149,8 +149,6 @@ export async function addCredits({
     console.error('addCredits, invalid expire days', userId, expireDays);
     throw new Error('Invalid expire days');
   }
-  // Process expired credits first
-  await processExpiredCredits(userId);
   // Update user credit balance
   const db = await getDb();
   const current = await db
@@ -230,8 +228,6 @@ export async function consumeCredits({
     console.error('consumeCredits, invalid amount', userId, amount);
     throw new Error('Invalid amount');
   }
-  // Process expired credits first
-  await processExpiredCredits(userId);
   // Check balance
   if (!(await hasEnoughCredits({ userId, requiredCredits: amount }))) {
     console.error(
@@ -304,6 +300,7 @@ export async function consumeCredits({
 /**
  * Process expired credits
  * @param userId - User ID
+ * @deprecated This function is no longer used, see distribute.ts instead
  */
 export async function processExpiredCredits(userId: string) {
   const now = new Date();

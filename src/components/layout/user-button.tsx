@@ -12,7 +12,6 @@ import { getAvatarLinks } from '@/config/avatar-config';
 import { websiteConfig } from '@/config/website';
 import { useLocaleRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
-import { usePaymentStore } from '@/stores/payment-store';
 import type { User } from 'better-auth';
 import { LogOutIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -29,15 +28,12 @@ export function UserButton({ user }: UserButtonProps) {
   const avatarLinks = getAvatarLinks();
   const localeRouter = useLocaleRouter();
   const [open, setOpen] = useState(false);
-  const { resetState } = usePaymentStore();
-
   const handleSignOut = async () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
           console.log('sign out success');
-          // Reset payment state on sign out
-          resetState();
+          // TanStack Query automatically handles cache invalidation on sign out
           localeRouter.replace('/');
         },
         onError: (error) => {

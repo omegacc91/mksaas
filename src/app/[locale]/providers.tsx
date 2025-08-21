@@ -1,8 +1,7 @@
 'use client';
 
 import { ActiveThemeProvider } from '@/components/layout/active-theme-provider';
-import { CreditsProvider } from '@/components/layout/credits-provider';
-import { PaymentProvider } from '@/components/layout/payment-provider';
+import { QueryProvider } from '@/components/providers/query-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { websiteConfig } from '@/config/website';
 import type { Translations } from 'fumadocs-ui/i18n';
@@ -54,21 +53,19 @@ export function Providers({ children, locale }: ProvidersProps) {
   };
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme={defaultMode}
-      enableSystem={true}
-      disableTransitionOnChange
-    >
-      <ActiveThemeProvider>
-        <RootProvider theme={theme} i18n={{ locale, locales, translations }}>
-          <TooltipProvider>
-            <PaymentProvider>
-              <CreditsProvider>{children}</CreditsProvider>
-            </PaymentProvider>
-          </TooltipProvider>
-        </RootProvider>
-      </ActiveThemeProvider>
-    </ThemeProvider>
+    <QueryProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme={defaultMode}
+        enableSystem={true}
+        disableTransitionOnChange
+      >
+        <ActiveThemeProvider>
+          <RootProvider theme={theme} i18n={{ locale, locales, translations }}>
+            <TooltipProvider>{children}</TooltipProvider>
+          </RootProvider>
+        </ActiveThemeProvider>
+      </ThemeProvider>
+    </QueryProvider>
   );
 }

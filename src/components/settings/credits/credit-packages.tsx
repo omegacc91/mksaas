@@ -11,7 +11,8 @@ import {
 import { getCreditPackages } from '@/config/credits-config';
 import { websiteConfig } from '@/config/website';
 import { useCurrentUser } from '@/hooks/use-current-user';
-import { usePayment } from '@/hooks/use-payment';
+import { useCurrentPlan } from '@/hooks/use-payment';
+import { authClient } from '@/lib/auth-client';
 import { formatPrice } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { CircleCheckBigIcon, CoinsIcon } from 'lucide-react';
@@ -31,7 +32,9 @@ export function CreditPackages() {
 
   // Get current user and payment info
   const currentUser = useCurrentUser();
-  const { currentPlan } = usePayment();
+  const { data: session } = authClient.useSession();
+  const { data: paymentData } = useCurrentPlan(session?.user?.id);
+  const currentPlan = paymentData?.currentPlan;
 
   // Get credit packages with translations - must be called here to maintain hook order
   const creditPackages = Object.values(getCreditPackages()).filter(

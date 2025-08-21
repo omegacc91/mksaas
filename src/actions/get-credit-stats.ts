@@ -1,6 +1,5 @@
 'use server';
 
-import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
 import { getDb } from '@/db';
 import { creditTransaction } from '@/db/schema';
 import type { User } from '@/lib/auth-types';
@@ -9,7 +8,6 @@ import { addDays } from 'date-fns';
 import { and, eq, gte, isNotNull, lte, sql, sum } from 'drizzle-orm';
 
 const CREDITS_EXPIRATION_DAYS = 31;
-const CREDITS_MONTHLY_DAYS = 31;
 
 /**
  * Get credit statistics for a user
@@ -39,50 +37,12 @@ export const getCreditStatsAction = userActionClient.action(async ({ ctx }) => {
         )
       );
 
-    // Get credits from subscription renewals (recent CREDITS_MONTHLY_DAYS days)
-    const monthlyRefreshDaysAgo = addDays(new Date(), -CREDITS_MONTHLY_DAYS);
-    const subscriptionCredits = await db
-      .select({
-        amount: sum(creditTransaction.amount),
-      })
-      .from(creditTransaction)
-      .where(
-        and(
-          eq(creditTransaction.userId, userId),
-          eq(
-            creditTransaction.type,
-            CREDIT_TRANSACTION_TYPE.SUBSCRIPTION_RENEWAL
-          ),
-          gte(creditTransaction.createdAt, monthlyRefreshDaysAgo)
-        )
-      );
-
-    // Get credits from monthly lifetime distribution (recent CREDITS_MONTHLY_DAYS days)
-    const lifetimeCredits = await db
-      .select({
-        amount: sum(creditTransaction.amount),
-      })
-      .from(creditTransaction)
-      .where(
-        and(
-          eq(creditTransaction.userId, userId),
-          eq(creditTransaction.type, CREDIT_TRANSACTION_TYPE.LIFETIME_MONTHLY),
-          gte(creditTransaction.createdAt, monthlyRefreshDaysAgo)
-        )
-      );
-
     return {
       success: true,
       data: {
         expiringCredits: {
           amount: Number(expiringCredits[0]?.amount) || 0,
           earliestExpiration: expiringCredits[0]?.earliestExpiration || null,
-        },
-        subscriptionCredits: {
-          amount: Number(subscriptionCredits[0]?.amount) || 0,
-        },
-        lifetimeCredits: {
-          amount: Number(lifetimeCredits[0]?.amount) || 0,
         },
       },
     };

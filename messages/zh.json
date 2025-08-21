@@ -601,8 +601,7 @@
           "creditsAdded": "积分已添加到您的账户",
           "viewTransactions": "查看积分记录",
           "retry": "重试",
-          "subscriptionCredits": "本月订阅获得 {credits} 积分",
-          "lifetimeCredits": "本月终身会员获得 {credits} 积分",
+
           "expiringCredits": "{credits} 积分将在 {date} 过期"
         },
         "packages": {
