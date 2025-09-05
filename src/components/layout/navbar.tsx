@@ -16,7 +16,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-import { getNavbarLinks } from '@/config/navbar-config';
+import { useNavbarLinks } from '@/config/navbar-config';
 import { useScroll } from '@/hooks/use-scroll';
 import { LocaleLink, useLocalePathname } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
@@ -44,7 +44,7 @@ const customNavigationMenuTriggerStyle = cn(
 export function Navbar({ scroll }: NavBarProps) {
   const t = useTranslations();
   const scrolled = useScroll(50);
-  const menuLinks = getNavbarLinks();
+  const menuLinks = useNavbarLinks();
   const localePathname = useLocalePathname();
   const [mounted, setMounted] = useState(false);
   const { data: session, isPending } = authClient.useSession();

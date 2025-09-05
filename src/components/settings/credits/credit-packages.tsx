@@ -8,11 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { getCreditPackages } from '@/config/credits-config';
+import { useCreditPackages } from '@/config/credits-config';
 import { websiteConfig } from '@/config/website';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { useCurrentPlan } from '@/hooks/use-payment';
-import { authClient } from '@/lib/auth-client';
 import { formatPrice } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { CircleCheckBigIcon, CoinsIcon } from 'lucide-react';
@@ -32,14 +31,26 @@ export function CreditPackages() {
 
   // Get current user and payment info
   const currentUser = useCurrentUser();
-  const { data: session } = authClient.useSession();
-  const { data: paymentData } = useCurrentPlan(session?.user?.id);
+  const { data: paymentData, isLoading: isLoadingPayment } = useCurrentPlan(
+    currentUser?.id
+  );
   const currentPlan = paymentData?.currentPlan;
 
   // Get credit packages with translations - must be called here to maintain hook order
-  const creditPackages = Object.values(getCreditPackages()).filter(
+  // This function contains useTranslations hook, so it must be called before any conditional returns
+  const creditPackages = Object.values(useCreditPackages()).filter(
     (pkg) => !pkg.disabled && pkg.price.priceId
   );
+
+  // Don't render anything while loading to prevent flash
+  if (isLoadingPayment) {
+    return null;
+  }
+
+  // Don't render anything if we don't have payment data yet
+  if (!paymentData) {
+    return null;
+  }
 
   // Check if user is on free plan and enablePackagesForFreePlan is false
   const isFreePlan = currentPlan?.isFree === true;

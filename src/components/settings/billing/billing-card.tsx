@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getPricePlans } from '@/config/price-config';
+import { usePricePlans } from '@/config/price-config';
 import { useMounted } from '@/hooks/use-mounted';
 import { useCurrentPlan } from '@/hooks/use-payment';
 import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
@@ -50,7 +50,7 @@ export default function BillingCard() {
   const subscription = paymentData?.subscription;
 
   // Get price plans with translations - must be called here to maintain hook order
-  const pricePlans = getPricePlans();
+  const pricePlans = usePricePlans();
   const plans = Object.values(pricePlans);
 
   // Convert current plan to a plan with translations

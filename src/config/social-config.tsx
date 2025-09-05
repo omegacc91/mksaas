@@ -25,7 +25,7 @@ import { websiteConfig } from './website';
  *
  * @returns The social config
  */
-export function getSocialLinks(): MenuItem[] {
+export function useSocialLinks(): MenuItem[] {
   const socialLinks: MenuItem[] = [];
 
   if (websiteConfig.metadata.social?.github) {

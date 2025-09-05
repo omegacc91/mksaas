@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { getAvatarLinks } from '@/config/avatar-config';
+import { useAvatarLinks } from '@/config/avatar-config';
 import { websiteConfig } from '@/config/website';
 import { useLocaleRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
@@ -25,7 +25,7 @@ interface UserButtonProps {
 
 export function UserButton({ user }: UserButtonProps) {
   const t = useTranslations();
-  const avatarLinks = getAvatarLinks();
+  const avatarLinks = useAvatarLinks();
   const localeRouter = useLocaleRouter();
   const [open, setOpen] = useState(false);
   const handleSignOut = async () => {

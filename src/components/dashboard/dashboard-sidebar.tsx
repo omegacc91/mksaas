@@ -12,7 +12,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { getSidebarLinks } from '@/config/sidebar-config';
+import { useSidebarLinks } from '@/config/sidebar-config';
 import { LocaleLink } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { Routes } from '@/routes';
@@ -35,7 +35,7 @@ export function DashboardSidebar({
   const { state } = useSidebar();
   // console.log('sidebar currentUser:', currentUser);
 
-  const sidebarLinks = getSidebarLinks();
+  const sidebarLinks = useSidebarLinks();
   const filteredSidebarLinks = sidebarLinks.filter((link) => {
     if (link.authorizeOnly) {
       return link.authorizeOnly.includes(currentUser?.role || '');

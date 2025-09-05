@@ -47,7 +47,7 @@ import { websiteConfig } from './website';
  *
  * @returns The navbar config with translated titles and descriptions
  */
-export function getNavbarLinks(): NestedMenuItem[] {
+export function useNavbarLinks(): NestedMenuItem[] {
   const t = useTranslations('Marketing.navbar');
 
   return [

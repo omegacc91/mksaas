@@ -15,7 +15,7 @@ import { websiteConfig } from './website';
  *
  * @returns The footer config with translated titles
  */
-export function getFooterLinks(): NestedMenuItem[] {
+export function useFooterLinks(): NestedMenuItem[] {
   const t = useTranslations('Marketing.footer');
 
   return [

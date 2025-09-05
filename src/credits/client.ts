@@ -1,4 +1,4 @@
-import { getCreditPackages } from '@/config/credits-config';
+import { useCreditPackages } from '@/config/credits-config';
 import type { CreditPackage } from './types';
 
 /**
@@ -6,7 +6,7 @@ import type { CreditPackage } from './types';
  * @returns Credit packages
  */
 export function getCreditPackagesInClient(): CreditPackage[] {
-  return Object.values(getCreditPackages());
+  return Object.values(useCreditPackages());
 }
 
 /**

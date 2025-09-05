@@ -24,6 +24,12 @@
     ".next": true,
     ".source": true,
     ".wrangler": true,
-    ".open-next": true
+    ".open-next": true,
+    ".vscode": true,
+    ".cursor": true,
+    ".claude": true,
+    ".conductor": true,
+    ".kiro": true,
+    ".github": true
   }
 }

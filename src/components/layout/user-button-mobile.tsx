@@ -10,7 +10,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { getAvatarLinks } from '@/config/avatar-config';
+import { useAvatarLinks } from '@/config/avatar-config';
 import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import type { User } from 'better-auth';
@@ -25,7 +25,7 @@ interface UserButtonProps {
 
 export function UserButtonMobile({ user }: UserButtonProps) {
   const t = useTranslations();
-  const avatarLinks = getAvatarLinks();
+  const avatarLinks = useAvatarLinks();
   const localeRouter = useLocaleRouter();
   const [open, setOpen] = useState(false);
   const closeDrawer = () => {
