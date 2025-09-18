@@ -2,6 +2,7 @@ import { websiteConfig } from '@/config/website';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { AhrefsAnalytics } from './ahrefs-analytics';
+import ClarityAnalytics from './clarity-analytics';
 import DataFastAnalytics from './data-fast-analytics';
 import GoogleAnalytics from './google-analytics';
 import OpenPanelAnalytics from './open-panel-analytics';
@@ -45,6 +46,9 @@ export function Analytics() {
 
       {/* seline analytics */}
       <SelineAnalytics />
+
+      {/* clarity analytics */}
+      <ClarityAnalytics />
 
       {/* vercel analytics */}
       {/* https://vercel.com/docs/analytics/quickstart */}

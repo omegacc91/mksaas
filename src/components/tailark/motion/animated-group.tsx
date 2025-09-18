@@ -115,9 +115,9 @@ function AnimatedGroup({
   const containerVariants = variants?.container || selectedVariants.container;
   const itemVariants = variants?.item || selectedVariants.item;
 
-  const MotionComponent = motion(as);
+  const MotionComponent = motion.create(as);
 
-  const MotionChild = motion(asChild);
+  const MotionChild = motion.create(asChild);
 
   return (
     <MotionComponent
