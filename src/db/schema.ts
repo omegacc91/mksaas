@@ -67,6 +67,7 @@ export const payment = pgTable("payment", {
 	id: text("id").primaryKey(),
 	priceId: text('price_id').notNull(),
 	type: text('type').notNull(),
+	scene: text('scene'), // payment scene: 'lifetime', 'credit', 'subscription'
 	interval: text('interval'),
 	userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
 	customerId: text('customer_id').notNull(),
@@ -84,6 +85,7 @@ export const payment = pgTable("payment", {
 	updatedAt: timestamp('updated_at').notNull().defaultNow(),
 }, (table) => ({
 	paymentTypeIdx: index("payment_type_idx").on(table.type),
+	paymentSceneIdx: index("payment_scene_idx").on(table.scene),
 	paymentPriceIdIdx: index("payment_price_id_idx").on(table.priceId),
 	paymentUserIdIdx: index("payment_user_id_idx").on(table.userId),
 	paymentCustomerIdIdx: index("payment_customer_id_idx").on(table.customerId),

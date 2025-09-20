@@ -43,6 +43,13 @@
       "when": 1757842853014,
       "tag": "0005_thankful_wolf_cub",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1758338199045,
+      "tag": "0006_ambitious_annihilus",
+      "breakpoints": true
     }
   ]
 }

@@ -5,7 +5,7 @@ import { payment } from '@/db/schema';
 import type { User } from '@/lib/auth-types';
 import { findPlanByPriceId, getAllPricePlans } from '@/lib/price-plan';
 import { userActionClient } from '@/lib/safe-action';
-import { PaymentTypes } from '@/payment/types';
+import { PaymentScenes, PaymentTypes } from '@/payment/types';
 import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
 
@@ -43,7 +43,8 @@ export const getLifetimeStatusAction = userActionClient
         };
       }
 
-      // Query the database for one-time payments with lifetime plans
+      // Query the database for lifetime payments directly using scene field
+      // This is much more efficient than querying all one-time payments and filtering
       const db = await getDb();
       const result = await db
         .select({
@@ -56,6 +57,7 @@ export const getLifetimeStatusAction = userActionClient
           and(
             eq(payment.userId, userId),
             eq(payment.type, PaymentTypes.ONE_TIME),
+            eq(payment.scene, PaymentScenes.LIFETIME),
             eq(payment.status, 'completed'),
             eq(payment.paid, true)
           )

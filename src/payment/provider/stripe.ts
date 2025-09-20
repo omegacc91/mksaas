@@ -24,6 +24,7 @@ import {
   type CreateCreditCheckoutParams,
   type CreatePortalParams,
   type PaymentProvider,
+  PaymentScenes,
   type PaymentStatus,
   PaymentTypes,
   type PlanInterval,
@@ -1051,6 +1052,7 @@ export class StripeProvider implements PaymentProvider {
         id: randomUUID(),
         priceId,
         type: PaymentTypes.SUBSCRIPTION,
+        scene: PaymentScenes.SUBSCRIPTION,
         userId,
         customerId,
         subscriptionId,
@@ -1107,6 +1109,13 @@ export class StripeProvider implements PaymentProvider {
     const invoiceId: string | null = session.invoice as string | null;
     console.log('createOneTimePaymentRecord, invoiceId:', invoiceId);
 
+    // Determine payment scene based on metadata
+    const metadata = session.metadata || {};
+    const isCreditPurchase = metadata.type === 'credit_purchase';
+    const scene = isCreditPurchase
+      ? PaymentScenes.CREDIT
+      : PaymentScenes.LIFETIME;
+
     // Create one-time payment record with proper status and paid=false
     const db = await getDb();
 
@@ -1115,6 +1124,7 @@ export class StripeProvider implements PaymentProvider {
         id: randomUUID(),
         priceId,
         type: PaymentTypes.ONE_TIME,
+        scene,
         userId,
         customerId,
         sessionId: session.id,
