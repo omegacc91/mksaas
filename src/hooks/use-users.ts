@@ -38,6 +38,7 @@ export function useUsers(
       });
 
       if (!result?.data?.success) {
+        console.log('useUsers error:', result?.data?.error);
         throw new Error(result?.data?.error || 'Failed to fetch users');
       }
 
@@ -64,6 +65,7 @@ export function useBanUser() {
       banReason: string;
       banExpiresIn?: number;
     }) => {
+      console.log('useBanUser, userId:', userId);
       return authClient.admin.banUser({
         userId,
         banReason,
@@ -85,6 +87,7 @@ export function useUnbanUser() {
 
   return useMutation({
     mutationFn: async ({ userId }: { userId: string }) => {
+      console.log('useUnbanUser, userId:', userId);
       return authClient.admin.unbanUser({
         userId,
       });

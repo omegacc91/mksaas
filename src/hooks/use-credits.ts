@@ -32,6 +32,7 @@ export function useCreditBalance() {
       console.log('Fetching credit balance...');
       const result = await getCreditBalanceAction();
       if (!result?.data?.success) {
+        console.log('useCreditBalance error:', result?.data?.error);
         throw new Error(
           result?.data?.error || 'Failed to fetch credit balance'
         );
@@ -50,6 +51,7 @@ export function useCreditStats() {
       console.log('Fetching credit stats...');
       const result = await getCreditStatsAction();
       if (!result?.data?.success) {
+        console.log('useCreditStats error:', result?.data?.error);
         throw new Error(result?.data?.error || 'Failed to fetch credit stats');
       }
       console.log('Credit stats fetched:', result.data.data);
@@ -75,6 +77,7 @@ export function useConsumeCredits() {
         description,
       });
       if (!result?.data?.success) {
+        console.log('useConsumeCredits error:', result?.data?.error);
         throw new Error(result?.data?.error || 'Failed to consume credits');
       }
       return result.data;
@@ -114,6 +117,7 @@ export function useCreditTransactions(
       });
 
       if (!result?.data?.success) {
+        console.log('useCreditTransactions error:', result?.data?.error);
         throw new Error(
           result?.data?.error || 'Failed to fetch credit transactions'
         );

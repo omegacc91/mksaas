@@ -29,6 +29,7 @@ export async function distributeCreditsToAllUsers() {
       userId: payment.userId,
       priceId: payment.priceId,
       status: payment.status,
+      paid: payment.paid,
       createdAt: payment.createdAt,
       rowNumber:
         sql<number>`ROW_NUMBER() OVER (PARTITION BY ${payment.userId} ORDER BY ${payment.createdAt} DESC)`.as(
@@ -36,7 +37,16 @@ export async function distributeCreditsToAllUsers() {
         ),
     })
     .from(payment)
-    .where(or(eq(payment.status, 'active'), eq(payment.status, 'trialing')))
+    .where(
+      or(
+        // Active subscriptions
+        and(eq(payment.status, 'active'), eq(payment.paid, true)),
+        // Trial subscriptions
+        and(eq(payment.status, 'trialing'), eq(payment.paid, true)),
+        // Completed lifetime payments
+        and(eq(payment.status, 'completed'), eq(payment.paid, true))
+      )
+    )
     .as('latest_payment');
 
   const usersWithPayments = await db
@@ -45,6 +55,7 @@ export async function distributeCreditsToAllUsers() {
       email: user.email,
       name: user.name,
       priceId: latestPaymentQuery.priceId,
+      paymentPaid: latestPaymentQuery.paid,
       paymentStatus: latestPaymentQuery.status,
       paymentCreatedAt: latestPaymentQuery.createdAt,
     })
@@ -70,14 +81,16 @@ export async function distributeCreditsToAllUsers() {
   const yearlyUsers: Array<{ userId: string; priceId: string }> = [];
 
   usersWithPayments.forEach((userRecord) => {
-    // Check if user has active subscription (status is 'active' or 'trialing')
+    // Check if user has valid payment (active subscription or completed lifetime payment)
     if (
       userRecord.priceId &&
+      userRecord.paymentPaid &&
       userRecord.paymentStatus &&
       (userRecord.paymentStatus === 'active' ||
-        userRecord.paymentStatus === 'trialing')
+        userRecord.paymentStatus === 'trialing' ||
+        userRecord.paymentStatus === 'completed')
     ) {
-      // User has active subscription - check what type
+      // User has valid payment - check what type
       const pricePlan = findPlanByPriceId(userRecord.priceId);
       if (pricePlan?.isLifetime && pricePlan?.credits?.enable) {
         lifetimeUsers.push({
@@ -100,7 +113,7 @@ export async function distributeCreditsToAllUsers() {
         // Monthly subscriptions are handled by Stripe webhooks automatically
       }
     } else {
-      // User has no active subscription - add free monthly credits if enabled
+      // User has no valid payment - add free monthly credits if enabled
       freeUserIds.push(userRecord.userId);
     }
   });

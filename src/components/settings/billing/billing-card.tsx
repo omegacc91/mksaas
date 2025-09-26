@@ -46,12 +46,14 @@ export default function BillingCard() {
 
   const currentPlan = paymentData?.currentPlan;
   const subscription = paymentData?.subscription;
+  const isLifetimeMember = currentPlan?.isLifetime || false;
 
   console.log('=== BillingCard Debug Info ===', {
     mounted,
     userId: currentUser?.id,
     isLoadingSession,
     isLoadingPayment,
+    isLifetimeMember,
     hasPaymentData: !!paymentData,
     hasCurrentPlan: !!currentPlan,
     hasSubscription: !!subscription,
@@ -67,7 +69,6 @@ export default function BillingCard() {
     ? plans.find((plan) => plan.id === currentPlan?.id)
     : null;
   const isFreePlan = currentPlanWithTranslations?.isFree || false;
-  const isLifetimeMember = currentPlanWithTranslations?.isLifetime || false;
 
   // Get current period start date
   const currentPeriodStart = subscription?.currentPeriodStart

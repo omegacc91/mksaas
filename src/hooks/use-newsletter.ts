@@ -19,6 +19,7 @@ export function useNewsletterStatus(email: string | undefined) {
       }
       const result = await checkNewsletterStatusAction({ email });
       if (!result?.data?.success) {
+        console.log('useNewsletterStatus error:', result?.data?.error);
         throw new Error(
           result?.data?.error || 'Failed to check newsletter status'
         );
@@ -38,6 +39,7 @@ export function useSubscribeNewsletter() {
     mutationFn: async (email: string) => {
       const result = await subscribeNewsletterAction({ email });
       if (!result?.data?.success) {
+        console.log('useSubscribeNewsletter error:', result?.data?.error);
         throw new Error(
           result?.data?.error || 'Failed to subscribe to newsletter'
         );
@@ -61,6 +63,7 @@ export function useUnsubscribeNewsletter() {
     mutationFn: async (email: string) => {
       const result = await unsubscribeNewsletterAction({ email });
       if (!result?.data?.success) {
+        console.log('useUnsubscribeNewsletter error:', result?.data?.error);
         throw new Error(
           result?.data?.error || 'Failed to unsubscribe from newsletter'
         );

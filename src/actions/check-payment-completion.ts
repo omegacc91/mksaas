@@ -26,7 +26,7 @@ export const checkPaymentCompletionAction = userActionClient
 
       const paymentData = paymentRecord[0] || null;
       const isPaid = paymentData ? paymentData.paid : false;
-      console.log('Check payment completion:', isPaid);
+      console.log('Check payment completion, isPaid:', isPaid);
 
       return {
         success: true,

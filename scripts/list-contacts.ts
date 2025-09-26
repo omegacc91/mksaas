@@ -20,6 +20,7 @@ export default async function listContacts() {
   }
 
   console.log(emails.join(', '));
+  console.log('List contacts completed');
 }
 
 listContacts();

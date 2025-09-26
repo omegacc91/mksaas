@@ -22,10 +22,10 @@ export function usePaymentCompletion(
           isPaid: false,
         };
       }
-      console.log('>>> Check payment completion');
+      console.log('>>> Check payment completion for sessionId:', sessionId);
       const result = await checkPaymentCompletionAction({ sessionId });
       if (!result?.data?.success) {
-        console.log('<<< Check payment failed');
+        console.log('<<< Check payment completion error:', result?.data?.error);
         throw new Error(
           result?.data?.error || 'Failed to check payment completion'
         );
@@ -33,7 +33,6 @@ export function usePaymentCompletion(
 
       const { isPaid } = result.data;
       console.log('<<< Check payment completion, paid:', isPaid);
-
       return {
         isPaid,
       };

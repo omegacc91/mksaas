@@ -16,6 +16,8 @@ export default async function listUsers() {
 
     // Output all emails joined with comma
     console.log(emails.join(', '));
+
+    console.log('List users completed');
   } catch (error) {
     console.error('Error fetching users:', error);
   }

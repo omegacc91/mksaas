@@ -38,8 +38,8 @@ export const getLifetimeStatusAction = userActionClient
       // Check if there are any lifetime plans defined in the system
       if (lifetimePlanIds.length === 0) {
         return {
-          success: false,
-          error: 'No lifetime plans defined in the system',
+          success: true,
+          isLifetimeMember: false,
         };
       }
 
