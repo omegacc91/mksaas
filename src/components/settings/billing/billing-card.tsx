@@ -91,12 +91,7 @@ export default function BillingCard() {
   }, [refetchPayment]);
 
   // Render loading skeleton
-  if (
-    !mounted ||
-    isLoadingPayment ||
-    isLoadingSession ||
-    !currentPlanWithTranslations
-  ) {
+  if (!mounted || isLoadingPayment || isLoadingSession) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
@@ -143,6 +138,30 @@ export default function BillingCard() {
           >
             <RefreshCwIcon className="size-4 mr-1" />
             {t('retry')}
+          </Button>
+        </CardFooter>
+      </Card>
+    );
+  }
+
+  // currentPlan maybe null, so we need to check if it is null
+  if (!currentPlanWithTranslations) {
+    return (
+      <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold">
+            {t('currentPlan.title')}
+          </CardTitle>
+          <CardDescription>{t('currentPlan.description')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="text-sm text-muted-foreground">
+            {t('currentPlan.noPlan')}
+          </div>
+        </CardContent>
+        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-muted rounded-none">
+          <Button variant="default" className="cursor-pointer" asChild>
+            <LocaleLink href={Routes.Pricing}>{t('upgradePlan')}</LocaleLink>
           </Button>
         </CardFooter>
       </Card>
