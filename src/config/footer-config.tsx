@@ -68,7 +68,7 @@ export function useFooterLinks(): NestedMenuItem[] {
         {
           title: t('resources.items.roadmap'),
           href: Routes.Roadmap,
-          external: true,
+          external: false,
         },
       ],
     },

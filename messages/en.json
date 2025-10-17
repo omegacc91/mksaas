@@ -156,6 +156,11 @@
     "description": "Stay up to date with the latest changes in our product",
     "subtitle": "Stay up to date with the latest changes in our product"
   },
+  "RoadmapPage": {
+    "title": "Roadmap",
+    "description": "Explore our future plans and upcoming features",
+    "subtitle": "Explore our future plans and upcoming features"
+  },
   "ContactPage": {
     "title": "Contact",
     "description": "We'll help you find the right plan for your business",
