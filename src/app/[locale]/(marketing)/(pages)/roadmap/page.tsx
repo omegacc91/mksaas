@@ -30,7 +30,7 @@ export default async function RoadmapPage() {
 
   return (
     <Container className="py-16 px-4">
-      <div className="mx-auto max-w-4xl space-y-8 pb-16">
+      <div className="mx-auto max-w-7xl space-y-8 pb-16">
         {/* Header */}
         <div className="space-y-4">
           <h1 className="text-center text-3xl font-bold tracking-tight">
@@ -42,7 +42,9 @@ export default async function RoadmapPage() {
         </div>
 
         {/* Roadmap */}
-        <Roadmap />
+        <div className="flex justify-center w-full">
+          <Roadmap />
+        </div>
       </div>
     </Container>
   );

@@ -30,8 +30,9 @@ export function constructMetadata({
   const ogImageUrl = getImageUrl(image || '');
 
   // Generate canonical URL from pathname and locale
-  const canonicalUrl =
-    pathname && locale ? getUrlWithLocale(pathname, locale) : undefined;
+  const canonicalUrl = locale
+    ? getUrlWithLocale(pathname || '', locale).replace(/\/$/, '')
+    : undefined;
 
   // Generate hreflang alternates if pathname is provided and we have multiple locales
   const alternates =

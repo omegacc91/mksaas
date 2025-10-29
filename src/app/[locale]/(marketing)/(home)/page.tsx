@@ -32,7 +32,7 @@ export async function generateMetadata({
     title: t('title'),
     description: t('description'),
     locale,
-    pathname: '/',
+    pathname: '',
   });
 }
 

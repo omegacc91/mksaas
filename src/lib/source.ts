@@ -1,5 +1,5 @@
 import { type InferPageType, loader } from 'fumadocs-core/source';
-import { createMDXSource } from 'fumadocs-mdx';
+import { createMDXSource } from 'fumadocs-mdx/runtime/next';
 import * as LucideIcons from 'lucide-react';
 import { createElement } from 'react';
 import { author, blog, category, changelog, docs, pages } from '../../.source';
@@ -75,12 +75,6 @@ export const blogSource = loader({
   baseUrl: '/blog',
   i18n: docsI18nConfig,
   source: createMDXSource(blog),
-  transformers: [
-    (page) => {
-      // console.log('page', page);
-      return page;
-    },
-  ],
 });
 
 export type ChangelogType = InferPageType<typeof changelogSource>;

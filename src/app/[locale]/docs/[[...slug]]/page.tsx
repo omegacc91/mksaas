@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: DocPageProps) {
     title: `${page.data.title} | ${t('title')}`,
     description: page.data.description,
     locale,
-    pathname: `/docs/${page.slugs.join('/')}`,
+    pathname: page.slugs.length > 0 ? `/docs/${page.slugs.join('/')}` : '/docs',
   });
 }
 
@@ -128,9 +128,7 @@ export default async function DocPage({ params }: DocPageProps) {
                 href,
                 ...props
               }: { href?: string; [key: string]: any }) => {
-                const found = source.getPageByHref(href ?? '', {
-                  dir: page.file.dirname,
-                });
+                const found = source.getPageByHref(href ?? '');
 
                 if (!found) return <Link href={href} {...props} />;
 

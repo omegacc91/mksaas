@@ -18,7 +18,6 @@ interface Task {
 const COLUMN_TITLES: Record<string, string> = {
   backlog: 'Backlog',
   inProgress: 'In Progress',
-  review: 'Review',
   done: 'Done',
 };
 
@@ -87,7 +86,7 @@ export function Roadmap() {
       onValueChange={setColumns}
       getItemValue={(item) => item.id}
     >
-      <Kanban.Board className="grid auto-rows-fr grid-cols-3">
+      <Kanban.Board className="grid auto-rows-fr grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {Object.entries(columns).map(([columnValue, tasks]) => (
           <TaskColumn key={columnValue} value={columnValue} tasks={tasks} />
         ))}

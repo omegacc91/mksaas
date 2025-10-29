@@ -1,14 +1,16 @@
 {
   "mcpServers": {
-    "console-ninja": {
-      "command": "node",
-      "args": [
-        "~/.console-ninja/mcp/"
-      ]
-    },
     "context7": {
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp@latest"]
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ]
+    },
+    "chrome-devtools": {
+      "command": "npx chrome-devtools-mcp@latest",
+      "env": {},
+      "args": []
     }
   }
 }
