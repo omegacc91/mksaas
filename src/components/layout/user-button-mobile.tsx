@@ -46,7 +46,6 @@ export function UserButtonMobile({ user }: UserButtonProps) {
             // This is normal when the session is already invalid/expired
             const isSessionError = 
               error?.error?.code === 'FAILED_TO_GET_SESSION' ||
-              error?.code === 'FAILED_TO_GET_SESSION' ||
               error?.error?.message?.includes('Failed to get session');
             
             if (!isSessionError) {

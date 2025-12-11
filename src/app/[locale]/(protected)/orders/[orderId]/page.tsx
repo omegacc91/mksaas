@@ -62,7 +62,7 @@ export default async function OrderDetailPage({
             </p>
           </div>
           <Badge className={`${getStatusColor(order.status)} text-sm px-3 py-1`}>
-            {t(`status.${order.status}`)}
+            {t(`status.${order.status}` as any)}
           </Badge>
         </div>
 

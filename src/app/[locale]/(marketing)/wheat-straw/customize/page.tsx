@@ -30,7 +30,7 @@ const customizationSchema = z.object({
   shippingCity: z.string().min(2, 'City is required'),
   shippingProvince: z.string().min(2, 'Province/State is required'),
   shippingPostalCode: z.string().optional(),
-  shippingCountry: z.string().default('CN'),
+  shippingCountry: z.string().min(1, 'Country is required'),
   customerNote: z.string().optional(),
 });
 

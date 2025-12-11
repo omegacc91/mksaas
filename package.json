@@ -111,6 +111,7 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^0.483.0",
     "motion": "^12.4.3",
+    "nanoid": "^5.1.6",
     "next": "16.0.8",
     "next-intl": "^4.0.0",
     "next-safe-action": "^7.10.4",

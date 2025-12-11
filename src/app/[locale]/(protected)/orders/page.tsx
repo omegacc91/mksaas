@@ -95,7 +95,7 @@ export default async function OrdersPage({
                           </p>
                         </div>
                         <Badge className={getStatusColor(order.status)}>
-                          {t(`status.${order.status}`)}
+                          {t(`status.${order.status}` as any)}
                         </Badge>
                       </div>
 

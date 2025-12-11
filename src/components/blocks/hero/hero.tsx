@@ -6,6 +6,7 @@ import { LocaleLink } from '@/i18n/navigation';
 import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import type { Variants } from 'motion/react';
 
 const transitionVariants = {
   item: {
@@ -19,12 +20,12 @@ const transitionVariants = {
       y: 0,
       scale: 1,
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         bounce: 0.3,
         duration: 1.5,
       },
     },
-  },
+  } as Variants,
 };
 
 export default function HeroSection() {

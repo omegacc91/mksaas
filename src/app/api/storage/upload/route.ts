@@ -59,13 +59,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Increase the body size limit for file uploads (default is 4MB)
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '10mb',
-    },
-  },
-  // For Next.js 13+ App Router, use maxDuration instead
-  maxDuration: 30, // 30 seconds timeout
-};
+// Route segment config for Next.js App Router
+// Note: Body size limits are configured at the platform level (e.g., vercel.json)
+export const maxDuration = 30; // 30 seconds timeout

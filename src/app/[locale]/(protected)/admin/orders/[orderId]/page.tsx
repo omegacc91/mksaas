@@ -171,7 +171,7 @@ export default function AdminOrderDetailPage() {
             </h1>
             <p className="text-muted-foreground">{order.orderNumber}</p>
           </div>
-          <Badge className={getStatusColor(order.status)} className="text-sm px-3 py-1">
+          <Badge className={`${getStatusColor(order.status)} text-sm px-3 py-1`}>
             {locale === 'zh' 
               ? ({ paid: '已支付', in_production: '制作中', shipped: '已发货', completed: '已完成', cancelled: '已取消' } as any)[order.status]
               : order.status}

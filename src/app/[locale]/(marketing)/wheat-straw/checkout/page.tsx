@@ -35,15 +35,21 @@ export default function CheckoutPage() {
         // Create checkout session
         const result = await createWheatStrawCheckoutAction(orderData);
         
-        if (result?.data?.success && result.data.data.url) {
-          // Clear session storage
-          sessionStorage.removeItem('wheatStrawOrderData');
-          sessionStorage.removeItem('wheatStrawImage');
-          sessionStorage.removeItem('wheatStrawOriginalImage');
-          sessionStorage.removeItem('wheatStrawPrompt');
-          
-          // Redirect to Stripe checkout
-          window.location.href = result.data.data.url;
+        if (result?.data?.success && result.data.data) {
+          const checkoutUrl = result.data.data.url;
+          if (checkoutUrl) {
+            // Clear session storage
+            sessionStorage.removeItem('wheatStrawOrderData');
+            sessionStorage.removeItem('wheatStrawImage');
+            sessionStorage.removeItem('wheatStrawOriginalImage');
+            sessionStorage.removeItem('wheatStrawPrompt');
+            
+            // Redirect to Stripe checkout
+            window.location.href = checkoutUrl;
+          } else {
+            setError('Failed to get checkout URL');
+            setIsProcessing(false);
+          }
         } else {
           setError(result?.data?.error || 'Failed to create checkout session');
           setIsProcessing(false);
