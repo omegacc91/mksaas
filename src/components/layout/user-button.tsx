@@ -30,14 +30,14 @@ export function UserButton({ user }: UserButtonProps) {
   const [open, setOpen] = useState(false);
   const handleSignOut = async () => {
     try {
-      await authClient.signOut({
-        fetchOptions: {
-          onSuccess: () => {
-            console.log('sign out success');
-            // TanStack Query automatically handles cache invalidation on sign out
-            localeRouter.replace('/');
-          },
-          onError: (error) => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          console.log('sign out success');
+          // TanStack Query automatically handles cache invalidation on sign out
+          localeRouter.replace('/');
+        },
+        onError: (error) => {
             // Check if it's the expected "Failed to get session" error
             // This is normal when the session is already invalid/expired
             const isSessionError = 
@@ -47,14 +47,14 @@ export function UserButton({ user }: UserButtonProps) {
             
             if (!isSessionError) {
               // Only log and show error for unexpected errors
-              console.error('sign out error:', error);
-              toast.error(t('Common.logoutFailed'));
+          console.error('sign out error:', error);
+          toast.error(t('Common.logoutFailed'));
             }
             // Always redirect to home page after sign out attempt
             localeRouter.replace('/');
-          },
         },
-      });
+      },
+    });
     } catch (error) {
       // Handle any unexpected errors
       console.error('Unexpected sign out error:', error);

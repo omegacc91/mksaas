@@ -20,7 +20,7 @@ export async function getDb() {
   } else if (process.env.NEXT_RUNTIME === 'edge') {
     // Only use Cloudflare Hyperdrive in edge runtime
     const { getCloudflareContext } = await import('@opennextjs/cloudflare');
-    const { env } = await getCloudflareContext({ async: true });
+  const { env } = await getCloudflareContext({ async: true });
     connectionString = env.HYPERDRIVE.connectionString;
   } else {
     throw new Error('DATABASE_URL environment variable is not set');

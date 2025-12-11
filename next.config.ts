@@ -98,6 +98,6 @@ export default withMDX(withNextIntl(nextConfig));
 // Only initialize Cloudflare dev bindings if explicitly enabled
 if (process.env.ENABLE_CLOUDFLARE_DEV === 'true') {
   import('@opennextjs/cloudflare').then(({ initOpenNextCloudflareForDev }) => {
-    initOpenNextCloudflareForDev();
+initOpenNextCloudflareForDev();
   });
 }

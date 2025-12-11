@@ -1176,8 +1176,8 @@ export class StripeProvider implements PaymentProvider {
     const scene = isPhysicalProduct
       ? PaymentScenes.PHYSICAL_PRODUCT
       : isCreditPurchase
-        ? PaymentScenes.CREDIT
-        : PaymentScenes.LIFETIME;
+      ? PaymentScenes.CREDIT
+      : PaymentScenes.LIFETIME;
 
     // Create one-time payment record with proper status and paid=false
     const db = await getDb();
