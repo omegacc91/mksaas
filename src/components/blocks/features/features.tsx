@@ -30,24 +30,24 @@ export default function FeaturesSection() {
 
   const images = {
     'item-1': {
-      image: '/blocks/charts-light.png',
-      darkImage: '/blocks/charts.png',
-      alt: 'Product Feature One',
+      image: '/images/wheate-straw/2fc41cc8b522fa082b5414988b58d908.jpg',
+      darkImage: '/images/wheate-straw/2fc41cc8b522fa082b5414988b58d908.jpg',
+      alt: 'Traditional Wheat Straw Painting',
     },
     'item-2': {
-      image: '/blocks/music-light.png',
-      darkImage: '/blocks/music.png',
-      alt: 'Product Feature Two',
+      image: '/images/wheate-straw/2fc41cc8b522fa082b5414988b58d908.jpg',
+      darkImage: '/images/wheate-straw/2fc41cc8b522fa082b5414988b58d908.jpg',
+      alt: 'Traditional Wheat Straw Painting',
     },
     'item-3': {
-      image: '/blocks/mail2-light.png',
-      darkImage: '/blocks/mail2.png',
-      alt: 'Product Feature Three',
+      image: '/images/wheate-straw/2fc41cc8b522fa082b5414988b58d908.jpg',
+      darkImage: '/images/wheate-straw/2fc41cc8b522fa082b5414988b58d908.jpg',
+      alt: 'Traditional Wheat Straw Painting',
     },
     'item-4': {
-      image: '/blocks/payments-light.png',
-      darkImage: '/blocks/payments.png',
-      alt: 'Product Feature Four',
+      image: '/images/wheate-straw/2fc41cc8b522fa082b5414988b58d908.jpg',
+      darkImage: '/images/wheate-straw/2fc41cc8b522fa082b5414988b58d908.jpg',
+      alt: 'Traditional Wheat Straw Painting',
     },
   };
 
@@ -124,8 +124,8 @@ export default function FeaturesSection() {
             </Accordion>
           </div>
 
-          <div className="bg-background w-full relative flex overflow-hidden rounded-2xl border p-2 lg:h-auto lg:col-span-7">
-            <div className="aspect-76/59 bg-background relative w-full rounded-2xl">
+          <div className="bg-background w-full relative flex overflow-hidden rounded-2xl border p-1 lg:h-auto lg:col-span-7">
+            <div className="bg-background relative w-full rounded-2xl flex items-center justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`${activeItem}-id`}
@@ -133,18 +133,18 @@ export default function FeaturesSection() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.98 }}
                   transition={{ duration: 0.2 }}
-                  className="size-full overflow-hidden rounded-2xl border bg-zinc-900 shadow-md"
+                  className="w-full overflow-hidden rounded-2xl border bg-zinc-900 shadow-md"
                 >
                   <Image
                     src={images[activeItem].image}
-                    className="size-full object-cover object-left-top dark:hidden"
+                    className="w-full h-auto dark:hidden"
                     alt={images[activeItem].alt}
                     width={1207}
                     height={929}
                   />
                   <Image
                     src={images[activeItem].darkImage}
-                    className="size-full object-cover object-left-top dark:block hidden"
+                    className="w-full h-auto dark:block hidden"
                     alt={images[activeItem].alt}
                     width={1207}
                     height={929}

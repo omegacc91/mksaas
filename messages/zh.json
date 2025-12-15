@@ -829,6 +829,26 @@
       "feature3Title": "全球配送",
       "feature3Desc": "安全包装，可靠物流"
     },
+    "zodiacGallery": {
+      "title": "十二生肖麦秆画",
+      "subtitle": "传统艺术作品",
+      "description": "欣赏我们精心制作的十二生肖麦秆画系列，每一幅都是独特的艺术品",
+      "close": "关闭",
+      "zodiac": {
+        "rat": "鼠",
+        "ox": "牛",
+        "tiger": "虎",
+        "rabbit": "兔",
+        "dragon": "龙",
+        "snake": "蛇",
+        "horse": "马",
+        "goat": "羊",
+        "monkey": "猴",
+        "rooster": "鸡",
+        "dog": "狗",
+        "pig": "猪"
+      }
+    },
     "hero": {
       "title": "使用 MkSaaS 轻松构建您的 AI SaaS 产品",
       "description": "MkSaaS 是构建 AI SaaS 的最佳模板，内置 AI、身份验证、全球支付、博客、文档、邮件订阅、SEO、多彩主题、丰富组件等。",
@@ -872,31 +892,31 @@
       }
     },
     "integration2": {
-      "title": "与您最喜欢的工具集成",
-      "description": "无缝连接流行的平台和服务，以增强您的工作流程。",
-      "primaryButton": "开始使用",
-      "secondaryButton": "查看演示"
+      "title": "传统工艺与现代创新的融合",
+      "description": "我们与资深工艺大师和传统手工作坊深度合作，将正宗的麦秆画艺术与现代 AI 设计技术完美结合，为您呈现独一无二的艺术作品。",
+      "primaryButton": "探索作品集",
+      "secondaryButton": "了解更多"
     },
     "features": {
-      "title": "功能",
-      "subtitle": "您的 SaaS 产品功能",
-      "description": "请在这里介绍您的 SaaS 产品的特色功能的信息",
+      "title": "麦秆画特色",
+      "subtitle": "传统艺术与现代创新的完美结合",
+      "description": "探索让我们的麦秆画成为卓越艺术品的独特特色",
       "items": {
         "item-1": {
-          "title": "产品特色功能一",
-          "description": "请在这里详细描述您的产品特色功能一，尽可能详细，使其更吸引用户，提高落地页的转化率"
+          "title": "传统手工艺术",
+          "description": "每一幅麦秆画都由技艺精湛的工匠采用代代相传的传统技法精心手工制作。每件作品都是独一无二的艺术品,展现了麦秆的天然美感和质感。"
         },
         "item-2": {
-          "title": "产品特色功能二",
-          "description": "请在这里详细描述您的产品特色功能二，尽可能详细，使其更吸引用户，提高落地页的转化率"
+          "title": "AI 智能设计",
+          "description": "将传统工艺与前沿 AI 技术完美结合。我们的 AI 设计工具帮助您创作定制麦秆画设计,让您以前所未有的便捷和精准度将创意愿景变为现实。"
         },
         "item-3": {
-          "title": "产品特色功能三",
-          "description": "请在这里详细描述您的产品特色功能三，尽可能详细，使其更吸引用户，提高落地页的转化率"
+          "title": "完全可定制",
+          "description": "可选择多种尺寸、边框和装裱方式,完美匹配您的空间和风格。无论是家居装饰还是馈赠佳品,我们提供全方位定制服务,满足您的特定需求和偏好。"
         },
         "item-4": {
-          "title": "产品特色功能四",
-          "description": "请在这里详细描述您的产品特色功能四，尽可能详细，使其更吸引用户，提高落地页的转化率"
+          "title": "优质环保材料",
+          "description": "我们只使用最优质的麦秆和环保材料,确保作品的耐用性和持久性。每幅画作都经过精心保护处理,使其鲜艳的色彩和精致的细节能够历久弥新。"
         }
       }
     },
@@ -1050,18 +1070,18 @@
       }
     },
     "stats": {
-      "title": "统计",
-      "subtitle": "MkSaaS 相关的数字",
-      "description": "MkSaaS 可让您在几天内轻松构建您的 AI SaaS",
+      "title": "我们的成就",
+      "subtitle": "传承与创新",
+      "description": "用数字见证我们在麦秆画艺术领域的深耕与成长",
       "items": {
         "item-1": {
-          "title": "GitHub 上的星星"
+          "title": "年传统工艺传承"
         },
         "item-2": {
-          "title": "使用 MkSaaS 的活跃用户"
+          "title": "满意客户"
         },
         "item-3": {
-          "title": "使用 MkSaaS 启动的应用"
+          "title": "精美作品创作"
         }
       }
     },

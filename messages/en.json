@@ -829,6 +829,26 @@
       "feature3Title": "Worldwide Delivery",
       "feature3Desc": "Secure packaging and reliable shipping"
     },
+    "zodiacGallery": {
+      "title": "Chinese Zodiac Collection",
+      "subtitle": "Traditional Art Gallery",
+      "description": "Explore our exquisite collection of twelve Chinese zodiac wheat straw paintings, each a unique work of art",
+      "close": "Close",
+      "zodiac": {
+        "rat": "Rat",
+        "ox": "Ox",
+        "tiger": "Tiger",
+        "rabbit": "Rabbit",
+        "dragon": "Dragon",
+        "snake": "Snake",
+        "horse": "Horse",
+        "goat": "Goat",
+        "monkey": "Monkey",
+        "rooster": "Rooster",
+        "dog": "Dog",
+        "pig": "Pig"
+      }
+    },
     "hero": {
       "title": "Make AI SaaS in days, simply and effortlessly",
       "description": "The is a demo website built with MkSaaS, a Next.js SaaS boilerplate to help you build your AI SaaS faster and better.",
@@ -872,31 +892,31 @@
       }
     },
     "integration2": {
-      "title": "Integrate with your favorite tools",
-      "description": "Connect seamlessly with popular platforms and services to enhance your workflow.",
-      "primaryButton": "Get Started",
-      "secondaryButton": "See Demo"
+      "title": "Craftsmanship Meets Innovation",
+      "description": "We collaborate with master artisans and traditional craft workshops to bring you authentic wheat straw paintings combined with modern AI design technology.",
+      "primaryButton": "Explore Gallery",
+      "secondaryButton": "Learn More"
     },
     "features": {
-      "title": "Features",
-      "subtitle": "The features of your product",
-      "description": "Write the description of your product here",
+      "title": "Wheat Straw Painting Features",
+      "subtitle": "Traditional Art Meets Modern Innovation",
+      "description": "Discover the unique features that make our wheat straw paintings exceptional works of art",
       "items": {
         "item-1": {
-          "title": "Product Feature One",
-          "description": "Please write the detailed description of feature one here, make it as detailed as possible, make it more attractive to users"
+          "title": "Traditional Handcrafted Art",
+          "description": "Each wheat straw painting is meticulously handcrafted by skilled artisans using traditional techniques passed down through generations. Every piece is a unique work of art that showcases the natural beauty and texture of wheat straw."
         },
         "item-2": {
-          "title": "Product Feature Two",
-          "description": "Please write the detailed description of feature two here, make it as detailed as possible, make it more attractive to users"
+          "title": "AI-Powered Design",
+          "description": "Combine traditional craftsmanship with cutting-edge AI technology. Our AI design tool helps you create custom wheat straw painting designs, allowing you to bring your creative vision to life with unprecedented ease and precision."
         },
         "item-3": {
-          "title": "Product Feature Three",
-          "description": "Please write the detailed description of feature three here, make it as detailed as possible, make it more attractive to users"
+          "title": "Fully Customizable",
+          "description": "Choose from various sizes, frames, and mounting options to perfectly match your space and style. Whether for home decoration or as a meaningful gift, we offer complete customization to meet your specific needs and preferences."
         },
         "item-4": {
-          "title": "Product Feature Four",
-          "description": "Please write the detailed description of feature four here, make it as detailed as possible, make it more attractive to users"
+          "title": "Premium Quality Materials",
+          "description": "We use only the finest quality wheat straw and eco-friendly materials to ensure durability and longevity. Each painting is carefully preserved and protected, maintaining its vibrant colors and intricate details for years to come."
         }
       }
     },
@@ -1050,18 +1070,18 @@
       }
     },
     "stats": {
-      "title": "Stats",
-      "subtitle": "MkSaaS in numbers",
-      "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly",
+      "title": "Our Achievements",
+      "subtitle": "Heritage & Innovation",
+      "description": "Numbers that showcase our dedication to the art of wheat straw painting",
       "items": {
         "item-1": {
-          "title": "Stars on GitHub"
+          "title": "Years of Traditional Craftsmanship"
         },
         "item-2": {
-          "title": "Active Users"
+          "title": "Satisfied Customers"
         },
         "item-3": {
-          "title": "Powered Apps"
+          "title": "Exquisite Artworks Created"
         }
       }
     },
