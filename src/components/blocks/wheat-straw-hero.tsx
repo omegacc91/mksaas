@@ -1,3 +1,4 @@
+'use client'
 import { AnimatedGroup } from '@/components/tailark/motion/animated-group';
 import { TextEffect } from '@/components/tailark/motion/text-effect';
 import { Button } from '@/components/ui/button';
@@ -5,6 +6,7 @@ import { LocaleLink } from '@/i18n/navigation';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import type { Variants } from 'motion/react';
 import { useTranslations } from 'next-intl';
+import { useState, useEffect } from 'react';
 
 const transitionVariants = {
   item: {
@@ -28,21 +30,39 @@ const transitionVariants = {
 
 export default function WheatStrawHero() {
   const t = useTranslations('HomePage.wheatStrawHero');
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // 定义轮播图片
+  const images = [
+    '/images/yingxiongqu1/qingming.jpg',
+    '/images/yingxiongqu1/shouye1.jpg',
+    '/images/yingxiongqu1/shouye2.jpg'
+  ];
+
+  // 自动轮播逻辑
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000); // 每5秒切换一张图片
+
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   return (
     <section className="relative overflow-hidden py-20 md:py-32">
-      {/* Background - subtle radial gradients matching main hero */}
-      <div
-        aria-hidden
-        className="absolute inset-0 isolate hidden opacity-40 contain-strict lg:block"
-      >
-        <div className="w-140 h-320 -translate-y-87.5 absolute left-0 top-0 -rotate-45 rounded-full bg-[radial-gradient(68.54%_68.72%_at_55.02%_31.46%,hsla(0,0%,85%,.08)_0,hsla(0,0%,55%,.02)_50%,hsla(0,0%,45%,0)_80%)]" />
-        <div className="h-320 absolute left-0 top-0 w-60 -rotate-45 rounded-full bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.06)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)] [translate:5%_-50%]" />
-        <div className="h-320 -translate-y-87.5 absolute left-0 top-0 w-60 -rotate-45 bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.04)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)]" />
+      {/* Background image carousel */}
+      <div className="absolute inset-0 -z-20 overflow-hidden">
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
+            style={{ backgroundImage: `url(${image})` }}
+          />
+        ))}
       </div>
 
-      {/* Subtle gradient overlay using theme colors */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-accent/10 to-primary/5" />
+      {/* Background mask overlay */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-black/40 via-black/30 to-black/50" />
 
       {/* Content */}
       <div className="container relative z-10 mx-auto px-6">
@@ -61,7 +81,7 @@ export default function WheatStrawHero() {
             preset="fade-in-blur"
             speedSegment={0.3}
             as="h1"
-            className="mb-6 text-balance text-4xl font-bold tracking-tight font-bricolage-grotesque sm:text-5xl md:text-6xl lg:text-7xl"
+            className="mb-6 text-balance text-4xl font-bold tracking-tight font-bricolage-grotesque text-white sm:text-5xl md:text-6xl lg:text-7xl"
           >
             {t('title')}
           </TextEffect>
@@ -73,7 +93,7 @@ export default function WheatStrawHero() {
             speedSegment={0.3}
             delay={0.3}
             as="p"
-            className="mb-8 text-balance text-lg text-muted-foreground md:text-xl lg:text-2xl"
+            className="mb-8 text-balance text-lg text-white/90 md:text-xl lg:text-2xl"
           >
             {t('description')}
           </TextEffect>
@@ -120,7 +140,7 @@ export default function WheatStrawHero() {
             </Button>
           </AnimatedGroup>
 
-          {/* Feature highlights with improved styling */}
+          {/* Feature highlights styled like cards */}
           <AnimatedGroup
             variants={{
               container: {
@@ -133,40 +153,43 @@ export default function WheatStrawHero() {
               },
               ...transitionVariants,
             }}
-            className="mt-12 grid gap-6 sm:grid-cols-3"
+            className="mt-16 grid gap-8 sm:grid-cols-3"
           >
-            <div className="group rounded-lg bg-card/50 backdrop-blur-sm border border-border/50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/30 hover:-translate-y-1">
-              <div className="mb-3 text-3xl transition-transform duration-300 group-hover:scale-110">
+            <div className="group relative rounded-xl bg-gradient-to-br from-[#3B1E13] to-[#C89557] p-8 shadow-xl transition-all duration-400 hover:shadow-2xl hover:-translate-y-3">
+
+              <div className="mb-4 text-4xl transition-transform duration-400 group-hover:scale-120 text-white">
                 🎨
               </div>
-              <h3 className="mb-2 font-semibold text-foreground">
+              <h3 className="mb-3 text-xl font-bold text-white">
                 {t('feature1Title')}
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-base text-white/90 leading-relaxed">
                 {t('feature1Desc')}
               </p>
             </div>
 
-            <div className="group rounded-lg bg-card/50 backdrop-blur-sm border border-border/50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/30 hover:-translate-y-1">
-              <div className="mb-3 text-3xl transition-transform duration-300 group-hover:scale-110">
+            <div className="group relative rounded-xl bg-gradient-to-br from-[#3B1E13] to-[#C89550] p-8 shadow-xl transition-all duration-400 hover:shadow-2xl hover:-translate-y-3">
+
+              <div className="mb-4 text-4xl transition-transform duration-400 group-hover:scale-120 text-white">
                 🚀
               </div>
-              <h3 className="mb-2 font-semibold text-foreground">
+              <h3 className="mb-3 text-xl font-bold text-white">
                 {t('feature2Title')}
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-base text-white/90 leading-relaxed">
                 {t('feature2Desc')}
               </p>
             </div>
 
-            <div className="group rounded-lg bg-card/50 backdrop-blur-sm border border-border/50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/30 hover:-translate-y-1">
-              <div className="mb-3 text-3xl transition-transform duration-300 group-hover:scale-110">
+            <div className="group relative rounded-xl bg-gradient-to-br from-[#3B1E13] to-[#C89557] p-8 shadow-xl transition-all duration-400 hover:shadow-2xl hover:-translate-y-3">
+
+              <div className="mb-4 text-4xl transition-transform duration-400 group-hover:scale-120 text-white">
                 📦
               </div>
-              <h3 className="mb-2 font-semibold text-foreground">
+              <h3 className="mb-3 text-xl font-bold text-white">
                 {t('feature3Title')}
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-base text-white/90 leading-relaxed">
                 {t('feature3Desc')}
               </p>
             </div>
