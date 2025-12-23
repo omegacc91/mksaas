@@ -830,23 +830,20 @@
       "feature3Desc": "安全包装，可靠物流"
     },
     "zodiacGallery": {
-      "title": "十二生肖麦秆画",
-      "subtitle": "传统艺术作品",
-      "description": "欣赏我们精心制作的十二生肖麦秆画系列，每一幅都是独特的艺术品",
+      "title": "商品展示",
+      "description": "以非遗麦秆工艺，交织成精美的饰件与画作，藏着草木肌理里的东方巧思",
       "close": "关闭",
+      "currencySymbol": "￥",
       "zodiac": {
-        "rat": "鼠",
-        "ox": "牛",
-        "tiger": "虎",
-        "rabbit": "兔",
-        "dragon": "龙",
-        "snake": "蛇",
-        "horse": "马",
-        "goat": "羊",
-        "monkey": "猴",
-        "rooster": "鸡",
-        "dog": "狗",
-        "pig": "猪"
+        "Summer Pond with Fish & Lotus": "夏塘鱼趣",
+        "Straw Misty Blue": "寒梅迎春",
+        "Wintersweet in Spring Breeze": "寒梅迎春",
+        "Ambitions Unfolding": "大展宏图",
+        "Spring Blossoms & Two Birds": "春枝双雀",
+        "Welcome Spring": "报春",
+        "Flowers and Birds": "花鸟",
+        "Pine and Crane": "松鹤",
+        "Landscape": "山水"
       }
     },
     "hero": {

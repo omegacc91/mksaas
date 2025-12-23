@@ -830,23 +830,20 @@
       "feature3Desc": "Secure packaging and reliable shipping"
     },
     "zodiacGallery": {
-      "title": "Chinese Zodiac Collection",
-      "subtitle": "Traditional Art Gallery",
-      "description": "Explore our exquisite collection of twelve Chinese zodiac wheat straw paintings, each a unique work of art",
+      "title": "Straw Art Collection",
+      "description": "Crafted with intangible cultural heritage straw technique, these delicate jewelry and paintings hold oriental ingenuity in the texture of plants",
       "close": "Close",
+      "currencySymbol": "$",
       "zodiac": {
-        "rat": "Rat",
-        "ox": "Ox",
-        "tiger": "Tiger",
-        "rabbit": "Rabbit",
-        "dragon": "Dragon",
-        "snake": "Snake",
-        "horse": "Horse",
-        "goat": "Goat",
-        "monkey": "Monkey",
-        "rooster": "Rooster",
-        "dog": "Dog",
-        "pig": "Pig"
+        "Summer Pond with Fish & Lotus": "Summer Pond with Fish & Lotus",
+        "Straw Misty Blue": "Straw Misty Blue",
+        "Wintersweet in Spring Breeze": "Wintersweet in Spring Breeze",
+        "Ambitions Unfolding": "Ambitions Unfolding",
+        "Spring Blossoms & Two Birds": "Spring Blossoms & Two Birds",
+        "Welcome Spring": "Welcome Spring",
+        "Flowers and Birds": "Flowers and Birds",
+        "Pine and Crane": "Pine and Crane",
+        "Landscape": "Landscape"
       }
     },
     "hero": {
