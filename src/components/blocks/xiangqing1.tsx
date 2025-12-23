@@ -11,22 +11,23 @@ export default function Xiangqing1() {
       <div className="mx-auto max-w-4xl space-y-12">
         <div className="text-center">
           <h1 className="text-3xl font-bold">
-            {t('zodiac.Straw Luster')}
+            {t('zodiac.Straw Misty Blue')}
           </h1>
           <p className="text-xl text-foreground/70">麦秆流光・羽蝶蜓</p>
-          <p className="text-2xl font-bold text-red-600 mt-2">{t('currencySymbol')}199</p>
+          <p className="text-2xl font-bold text-red-600 mt-2">{t('currencySymbol')}299</p>
         </div>
 
         <div className="flex justify-center">
           <Image
             src="/images/wheate-straw/xiongzhen2.jpg"
-            alt="麦秆流光・羽蝶蜓"
-            width={800}
+            alt="麦秆烟蓝・蝶影"
+            width={1000}
             height={1500}
             className="object-contain"
           />
         </div>
 
+        
       </div>
     </section>
   );
