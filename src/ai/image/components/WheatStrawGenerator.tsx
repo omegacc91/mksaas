@@ -31,35 +31,49 @@ export function WheatStrawGenerator({ locale = 'en' }: WheatStrawGeneratorProps)
     timestamp: Date;
   }>>([]);
 
-  const {
-    images,
-    errors,
-    isLoading,
-    startGeneration,
-    resetState,
-  } = useImageGeneration();
+  // 使用自定义状态替代useImageGeneration，实现模拟功能
+  const [images, setImages] = useState<Array<{provider: string; image: string | null; modelId: string}>>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<Array<{provider: string; message: string}>>([]);
+  
+  // 重置状态函数
+  const resetState = () => {
+    setImages([]);
+    setErrors([]);
+    setIsLoading(false);
+    setSelectedImageUrl(null);
+  };
 
-  const handlePromptSubmit = async () => {
+  const handlePromptSubmit = () => {
     if (!prompt.trim()) return;
 
+    // 重置状态并设置加载状态
     resetState();
+    setIsLoading(true);
     
-    // Enhance the prompt with wheat straw style
-    const enhancedPrompt = enhanceWheatStrawPrompt(prompt, {
-      includeQualityModifiers: true,
-      intensityLevel: 'moderate',
-    });
-
-    // Use OpenAI DALL-E 3 for wheat straw generation
-    const providers: ProviderKey[] = ['openai'];
-    const providerToModel = {
-      replicate: MODEL_CONFIGS.quality.replicate,
-      openai: 'dall-e-3',
-      fireworks: MODEL_CONFIGS.quality.fireworks,
-      fal: MODEL_CONFIGS.quality.fal,
-    };
-
-    await startGeneration(enhancedPrompt, providers, providerToModel);
+    // 显示加载中的占位符
+    setImages([
+      {
+        provider: 'openai',
+        image: null,
+        modelId: 'dall-e-3',
+      }
+    ]);
+    
+    // 模拟3秒加载时间
+    setTimeout(() => {
+      // 更新为本地图片URL
+      setImages([
+        {
+          provider: 'openai',
+          image: '/images/wheate-straw/ma1.jpg',
+          modelId: 'dall-e-3',
+        }
+      ]);
+      
+      // 关闭加载状态
+      setIsLoading(false);
+    }, 3000);
   };
 
   const handleExamplePromptClick = (examplePrompt: typeof EXAMPLE_PROMPTS[0]) => {
@@ -92,6 +106,18 @@ export function WheatStrawGenerator({ locale = 'en' }: WheatStrawGeneratorProps)
     router.push('/wheat-straw/customize');
   };
 
+  // 修改示例提示词，将"威严的中国龙"替换为"黑金装饰风马面"
+  const modifiedExamplePrompts = EXAMPLE_PROMPTS.map(example => {
+    if (example.zh.includes('威严的中国龙')) {
+      return {
+        ...example,
+        zh: '黑金装饰风马面',
+        en: 'Black-gold decorative horse fac'
+      };
+    }
+    return example;
+  });
+
   return (
     <div className="w-full max-w-7xl mx-auto p-4 space-y-6">
       {/* Title and Description */}
@@ -114,8 +140,8 @@ export function WheatStrawGenerator({ locale = 'en' }: WheatStrawGeneratorProps)
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder={locale === 'zh' 
-                ? '描述您想要创作的麦秆画，例如：威严的中国龙在云中飞翔' 
-                : 'Describe the wheat straw painting you want to create, e.g., A majestic Chinese dragon flying through clouds'}
+                ? '描述您想要创作的麦秆画，例如：黑金装饰风马面' 
+                : 'Describe the wheat straw painting you want to create, e.g., Black-gold decorative horse fac'}
               rows={4}
               className="resize-none"
             />
@@ -127,7 +153,7 @@ export function WheatStrawGenerator({ locale = 'en' }: WheatStrawGeneratorProps)
               {locale === 'zh' ? '示例提示词：' : 'Example Prompts:'}
             </p>
             <div className="flex flex-wrap gap-2">
-              {EXAMPLE_PROMPTS.map((example, index) => (
+              {modifiedExamplePrompts.map((example, index) => (
                 <Button
                   key={index}
                   variant="outline"
