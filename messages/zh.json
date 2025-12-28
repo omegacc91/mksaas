@@ -144,10 +144,10 @@
   },
   "AboutPage": {
     "title": "关于我们",
-    "description": "MkSaaS 是一个使用最先进的技术栈构建的 AI SaaS 模板，它可以帮助你更快更好地构建你的 SaaS。如果你有任何问题，欢迎联系我。",
+    "description": "MkSaaS 是一个使用最先进的技术栈构建的 Wheat straw painting 模板，它可以帮助你更快更好地构建你的 SaaS。如果你有任何问题，欢迎联系我。",
     "authorName": "MkSaaS",
-    "authorBio": "最好的 AI SaaS 模板",
-    "introduction": "👋 你好，这里是 MkSaaS，一个使用最先进的技术栈构建的 AI SaaS 模板，它可以帮助你更快更好地构建你的 SaaS。如果你有任何问题，欢迎联系我。",
+    "authorBio": "最好的 Wheat straw painting 模板",
+    "introduction": "👋 你好，这里是 MkSaaS，一个使用最先进的技术栈构建的 Wheat straw painting 模板，它可以帮助你更快更好地构建你的 SaaS。如果你有任何问题，欢迎联系我。",
     "talkWithMe": "联系我",
     "followMe": "关注我"
   },
@@ -451,7 +451,7 @@
       }
     },
     "footer": {
-      "tagline": "使用 MkSaaS 在几天内轻松构建您的 AI SaaS",
+      "tagline": "使用 MkSaaS 在几天内轻松构建您的 Wheat straw painting",
       "product": {
         "title": "产品",
         "items": {
@@ -815,7 +815,7 @@
   },
   "HomePage": {
     "title": "MkSaaS",
-    "description": "使用 MkSaaS 在几天内轻松构建您的 AI SaaS 产品",
+    "description": "使用 MkSaaS 在几天内轻松构建您的 Wheat straw painting 产品",
     "wheatStrawHero": {
       "badge": "AI 赋能传统艺术",
       "title": "用 AI 创作精美的麦秆画",
@@ -847,8 +847,8 @@
       }
     },
     "hero": {
-      "title": "使用 MkSaaS 轻松构建您的 AI SaaS 产品",
-      "description": "MkSaaS 是构建 AI SaaS 的最佳模板，内置 AI、身份验证、全球支付、博客、文档、邮件订阅、SEO、多彩主题、丰富组件等。",
+      "title": "使用 MkSaaS 轻松构建您的 Wheat straw painting 产品",
+      "description": "MkSaaS 是构建 Wheat straw painting 的最佳模板，内置 AI、身份验证、全球支付、博客、文档、邮件订阅、SEO、多彩主题、丰富组件等。",
       "introduction": "介绍 MkSaaS 模板",
       "primary": "开始使用",
       "secondary": "查看演示"
@@ -1084,7 +1084,7 @@
     },
     "calltoaction": {
       "title": "开始构建",
-      "description": "MkSaaS 可让您在几天内轻松构建您的 AI SaaS",
+      "description": "MkSaaS 可让您在几天内轻松构建您的 Wheat straw painting",
       "primaryButton": "开始使用",
       "secondaryButton": "查看演示"
     }
@@ -1140,19 +1140,19 @@
   },
   "AIImagePage": {
     "title": "AI 图片",
-    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力"
+    "description": "MkSaaS 让您在几天内轻松构建您的 Wheat straw painting，简单且毫不费力"
   },
   "AIChatPage": {
     "title": "AI 聊天",
-    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力"
+    "description": "MkSaaS 让您在几天内轻松构建您的 Wheat straw painting，简单且毫不费力"
   },
   "AIVideoPage": {
     "title": "AI 视频",
-    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力"
+    "description": "MkSaaS 让您在几天内轻松构建您的 Wheat straw painting，简单且毫不费力"
   },
   "AIAudioPage": {
     "title": "AI 音频",
-    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力"
+    "description": "MkSaaS 让您在几天内轻松构建您的 Wheat straw painting，简单且毫不费力"
   },
   "WheatStraw": {
     "pageTitle": "麦秆画 AI 生成器",

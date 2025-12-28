@@ -17,7 +17,7 @@ export default function BuiltWithButton() {
       <span>
         <MkSaaSLogo className="size-5 rounded-full" />
       </span>
-      <span className="font-semibold">MkSaaS</span>
+    
     </Link>
   );
 }

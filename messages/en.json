@@ -144,10 +144,10 @@
   },
   "AboutPage": {
     "title": "About",
-    "description": "This is MkSaaS, an AI SaaS template built with modern technologies, helping you build your SaaS faster and better.",
+    "description": "This is MkSaaS, an Wheat straw painting template built with modern technologies, helping you build your SaaS faster and better.",
     "authorName": "MkSaaS",
-    "authorBio": "AI SaaS Boilerplate",
-    "introduction": "👋 Hi there! This is MkSaaS, an AI SaaS template built with modern technologies, helping you build your SaaS faster and better. If you have any questions, welcome to contact me.",
+    "authorBio": "Wheat straw painting Boilerplate",
+    "introduction": "👋 Hi there! This is MkSaaS, an Wheat straw painting template built with modern technologies, helping you build your SaaS faster and better. If you have any questions, welcome to contact me.",
     "talkWithMe": "Talk with me",
     "followMe": "Follow me on X"
   },
@@ -451,7 +451,7 @@
       }
     },
     "footer": {
-      "tagline": "Make AI SaaS in days, simply and effortlessly",
+      "tagline": "Make Wheat straw painting in days, simply and effortlessly",
       "product": {
         "title": "Product",
         "items": {
@@ -815,7 +815,7 @@
   },
   "HomePage": {
     "title": "MkSaaS",
-    "description": "Make AI SaaS in days, simply and effortlessly",
+    "description": "Make Wheat straw painting in days, simply and effortlessly",
     "wheatStrawHero": {
       "badge": "AI-Powered Traditional Art",
       "title": "Create Beautiful Wheat Straw Paintings with AI",
@@ -847,8 +847,8 @@
       }
     },
     "hero": {
-      "title": "Make AI SaaS in days, simply and effortlessly",
-      "description": "The is a demo website built with MkSaaS, a Next.js SaaS boilerplate to help you build your AI SaaS faster and better.",
+      "title": "Make Wheat straw painting in days, simply and effortlessly",
+      "description": "The is a demo website built with MkSaaS, a Next.js SaaS boilerplate to help you build your Wheat straw painting faster and better.",
       "introduction": "Introducing MkSaaS Boilerplate",
       "primary": "Get Started",
       "secondary": "See Demo"
@@ -1084,7 +1084,7 @@
     },
     "calltoaction": {
       "title": "Start Building",
-      "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly",
+      "description": "MkSaaS lets you make Wheat straw painting in days, simply and effortlessly",
       "primaryButton": "Get Started",
       "secondaryButton": "See Demo"
     }
@@ -1140,19 +1140,19 @@
   },
   "AIImagePage": {
     "title": "AI Image",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+    "description": "MkSaaS lets you make Wheat straw painting in days, simply and effortlessly"
   },
   "AIChatPage": {
     "title": "AI Chat",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+    "description": "MkSaaS lets you make Wheat straw painting in days, simply and effortlessly"
   },
   "AIVideoPage": {
     "title": "AI Video",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+    "description": "MkSaaS lets you make Wheat straw painting in days, simply and effortlessly"
   },
   "AIAudioPage": {
     "title": "AI Audio",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+    "description": "MkSaaS lets you make Wheat straw painting in days, simply and effortlessly"
   },
   "WheatStraw": {
     "pageTitle": "Wheat Straw Painting AI Generator",

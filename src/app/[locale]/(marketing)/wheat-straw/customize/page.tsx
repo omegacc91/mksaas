@@ -1,12 +1,10 @@
 'use client';
 
-import { getProductOptions, type ProductOptionsByCategory } from '@/actions/get-product-options';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,13 +18,11 @@ import { z } from 'zod';
 
 const BASE_PRICE = 9900; // $99 base price in cents
 
+// Relaxed validation schema
 const customizationSchema = z.object({
-  sizeOptionId: z.string().min(1, 'Please select a size'),
-  frameOptionId: z.string().min(1, 'Please select a frame option'),
-  mountingOptionId: z.string().min(1, 'Please select a mounting option'),
-  recipientName: z.string().min(2, 'Name must be at least 2 characters'),
-  recipientPhone: z.string().min(10, 'Please enter a valid phone number'),
-  shippingAddress: z.string().min(10, 'Address must be at least 10 characters'),
+  recipientName: z.string().min(1, 'Name is required'),
+  recipientPhone: z.string().min(5, 'Phone number must be at least 5 digits'),
+  shippingAddress: z.string().min(5, 'Address must be at least 5 characters'),
   shippingCity: z.string().min(2, 'City is required'),
   shippingProvince: z.string().min(2, 'Province/State is required'),
   shippingPostalCode: z.string().optional(),
@@ -44,26 +40,34 @@ export default function CustomizePage() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [originalImageUrl, setOriginalImageUrl] = useState<string | null>(null);
   const [prompt, setPrompt] = useState<string>('');
-  const [productOptions, setProductOptions] = useState<ProductOptionsByCategory | null>(null);
-  const [isLoadingOptions, setIsLoadingOptions] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Removed default values as requested
   const form = useForm<CustomizationFormData>({
     resolver: zodResolver(customizationSchema),
     defaultValues: {
-      shippingCountry: 'CN',
+      recipientName: '',
+      recipientPhone: '',
+      shippingAddress: '',
+      shippingCity: '',
+      shippingProvince: '',
+      shippingPostalCode: '',
+      shippingCountry: 'US', // Default to US
+      customerNote: '',
     },
   });
 
-  const watchedOptions = form.watch(['sizeOptionId', 'frameOptionId', 'mountingOptionId']);
-
   // Load image from session storage
   useEffect(() => {
+    // Ensure we are in the browser
+    if (typeof window === 'undefined') return;
+
     const storedImage = sessionStorage.getItem('wheatStrawImage');
     const storedOriginal = sessionStorage.getItem('wheatStrawOriginalImage');
     const storedPrompt = sessionStorage.getItem('wheatStrawPrompt');
 
     if (!storedImage) {
+      // If direct access without image, redirect back
       router.push('/wheat-straw');
       return;
     }
@@ -73,62 +77,8 @@ export default function CustomizePage() {
     setPrompt(storedPrompt || '');
   }, [router, locale]);
 
-  // Load product options
-  useEffect(() => {
-    async function loadOptions() {
-      try {
-        const options = await getProductOptions();
-        setProductOptions(options);
-        
-        // Set default selections
-        if (options.size.length > 0) {
-          form.setValue('sizeOptionId', options.size[0].id);
-        }
-        if (options.frame.length > 0) {
-          form.setValue('frameOptionId', options.frame[0].id);
-        }
-        if (options.mounting.length > 0) {
-          form.setValue('mountingOptionId', options.mounting[0].id);
-        }
-      } catch (error) {
-        console.error('Error loading product options:', error);
-      } finally {
-        setIsLoadingOptions(false);
-      }
-    }
-
-    loadOptions();
-  }, [form]);
-
-  // Calculate total price
-  const calculateTotalPrice = () => {
-    if (!productOptions) return BASE_PRICE;
-
-    let total = BASE_PRICE;
-
-    const [sizeId, frameId, mountingId] = watchedOptions;
-
-    if (sizeId) {
-      const option = productOptions.size.find(o => o.id === sizeId);
-      if (option) total += option.priceAdjustment;
-    }
-
-    if (frameId) {
-      const option = productOptions.frame.find(o => o.id === frameId);
-      if (option) total += option.priceAdjustment;
-    }
-
-    if (mountingId) {
-      const option = productOptions.mounting.find(o => o.id === mountingId);
-      if (option) total += option.priceAdjustment;
-    }
-
-    return total;
-  };
-
-  const totalPrice = calculateTotalPrice();
-
   const onSubmit = async (data: CustomizationFormData) => {
+    console.log('Submitting form data:', data);
     setIsSubmitting(true);
     try {
       // Store the order data in session storage for checkout
@@ -138,12 +88,16 @@ export default function CustomizePage() {
         originalImageUrl,
         prompt,
         basePrice: BASE_PRICE,
-        totalPrice,
+        totalPrice: BASE_PRICE, // Fixed price since options are removed
+        sizeOptionId: null,
+        frameOptionId: null,
+        mountingOptionId: null,
       };
 
       sessionStorage.setItem('wheatStrawOrderData', JSON.stringify(orderData));
+      console.log('Stored order data, redirecting to checkout...');
 
-      // Navigate to checkout (will be created in payment integration step)
+      // Navigate to checkout
       router.push('/wheat-straw/checkout');
     } catch (error) {
       console.error('Error submitting customization:', error);
@@ -153,7 +107,17 @@ export default function CustomizePage() {
     }
   };
 
-  if (!imageUrl || isLoadingOptions) {
+  const onInvalid = (errors: any) => {
+    console.error('Form validation errors:', errors);
+    const errorMessages = Object.values(errors)
+      .map((e: any) => e.message)
+      .join('\n');
+    alert(locale === 'zh' 
+      ? `提交失败，请检查以下信息：\n${errorMessages}` 
+      : `Submission failed, please check the following:\n${errorMessages}`);
+  };
+
+  if (!imageUrl) {
     return (
       <div className="container mx-auto py-16 flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin" />
@@ -206,33 +170,9 @@ export default function CustomizePage() {
                   <span>{locale === 'zh' ? '基础价格' : 'Base Price'}</span>
                   <span>${(BASE_PRICE / 100).toFixed(2)}</span>
                 </div>
-                {productOptions && watchedOptions[0] && (
-                  <div className="flex justify-between text-sm">
-                    <span>{locale === 'zh' ? '尺寸选项' : 'Size Option'}</span>
-                    <span>
-                      ${((productOptions.size.find(o => o.id === watchedOptions[0])?.priceAdjustment || 0) / 100).toFixed(2)}
-                    </span>
-                  </div>
-                )}
-                {productOptions && watchedOptions[1] && (
-                  <div className="flex justify-between text-sm">
-                    <span>{locale === 'zh' ? '边框选项' : 'Frame Option'}</span>
-                    <span>
-                      ${((productOptions.frame.find(o => o.id === watchedOptions[1])?.priceAdjustment || 0) / 100).toFixed(2)}
-                    </span>
-                  </div>
-                )}
-                {productOptions && watchedOptions[2] && (
-                  <div className="flex justify-between text-sm">
-                    <span>{locale === 'zh' ? '装裱选项' : 'Mounting Option'}</span>
-                    <span>
-                      ${((productOptions.mounting.find(o => o.id === watchedOptions[2])?.priceAdjustment || 0) / 100).toFixed(2)}
-                    </span>
-                  </div>
-                )}
                 <div className="border-t pt-2 flex justify-between font-bold text-lg">
                   <span>{locale === 'zh' ? '总计' : 'Total'}</span>
-                  <span>${(totalPrice / 100).toFixed(2)}</span>
+                  <span>${(BASE_PRICE / 100).toFixed(2)}</span>
                 </div>
               </CardContent>
             </Card>
@@ -244,131 +184,15 @@ export default function CustomizePage() {
               <CardHeader>
                 <CardTitle>{locale === 'zh' ? '定制选项' : 'Customization Options'}</CardTitle>
                 <CardDescription>
-                  {locale === 'zh' ? '选择您的产品规格和配送信息' : 'Choose your product specifications and shipping details'}
+                  {locale === 'zh' ? '填写配送信息' : 'Enter shipping details'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    {/* Size Selection */}
-                    {productOptions && productOptions.size.length > 0 && (
-                      <FormField
-                        control={form.control}
-                        name="sizeOptionId"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{locale === 'zh' ? '尺寸' : 'Size'}</FormLabel>
-                            <FormControl>
-                              <RadioGroup
-                                onValueChange={field.onChange}
-                                value={field.value}
-                                className="grid grid-cols-1 gap-2"
-                              >
-                                {productOptions.size.map((option) => (
-                                  <div key={option.id} className="flex items-center space-x-2 border rounded-lg p-3 hover:bg-muted cursor-pointer">
-                                    <RadioGroupItem value={option.id} id={`size-${option.id}`} />
-                                    <Label htmlFor={`size-${option.id}`} className="flex-1 cursor-pointer">
-                                      <div className="flex justify-between items-center">
-                                        <span>{locale === 'zh' ? option.nameZh : option.name}</span>
-                                        {option.priceAdjustment !== 0 && (
-                                          <span className="text-sm text-muted-foreground">
-                                            +${(option.priceAdjustment / 100).toFixed(2)}
-                                          </span>
-                                        )}
-                                      </div>
-                                      {option.description && (
-                                        <p className="text-xs text-muted-foreground mt-1">
-                                          {locale === 'zh' ? option.descriptionZh : option.description}
-                                        </p>
-                                      )}
-                                    </Label>
-                                  </div>
-                                ))}
-                              </RadioGroup>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    )}
-
-                    {/* Frame Selection */}
-                    {productOptions && productOptions.frame.length > 0 && (
-                      <FormField
-                        control={form.control}
-                        name="frameOptionId"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{locale === 'zh' ? '边框' : 'Frame'}</FormLabel>
-                            <FormControl>
-                              <RadioGroup
-                                onValueChange={field.onChange}
-                                value={field.value}
-                                className="grid grid-cols-1 gap-2"
-                              >
-                                {productOptions.frame.map((option) => (
-                                  <div key={option.id} className="flex items-center space-x-2 border rounded-lg p-3 hover:bg-muted cursor-pointer">
-                                    <RadioGroupItem value={option.id} id={`frame-${option.id}`} />
-                                    <Label htmlFor={`frame-${option.id}`} className="flex-1 cursor-pointer">
-                                      <div className="flex justify-between items-center">
-                                        <span>{locale === 'zh' ? option.nameZh : option.name}</span>
-                                        {option.priceAdjustment !== 0 && (
-                                          <span className="text-sm text-muted-foreground">
-                                            +${(option.priceAdjustment / 100).toFixed(2)}
-                                          </span>
-                                        )}
-                                      </div>
-                                    </Label>
-                                  </div>
-                                ))}
-                              </RadioGroup>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    )}
-
-                    {/* Mounting Selection */}
-                    {productOptions && productOptions.mounting.length > 0 && (
-                      <FormField
-                        control={form.control}
-                        name="mountingOptionId"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{locale === 'zh' ? '装裱方式' : 'Mounting'}</FormLabel>
-                            <FormControl>
-                              <RadioGroup
-                                onValueChange={field.onChange}
-                                value={field.value}
-                                className="grid grid-cols-1 gap-2"
-                              >
-                                {productOptions.mounting.map((option) => (
-                                  <div key={option.id} className="flex items-center space-x-2 border rounded-lg p-3 hover:bg-muted cursor-pointer">
-                                    <RadioGroupItem value={option.id} id={`mounting-${option.id}`} />
-                                    <Label htmlFor={`mounting-${option.id}`} className="flex-1 cursor-pointer">
-                                      <div className="flex justify-between items-center">
-                                        <span>{locale === 'zh' ? option.nameZh : option.name}</span>
-                                        {option.priceAdjustment !== 0 && (
-                                          <span className="text-sm text-muted-foreground">
-                                            +${(option.priceAdjustment / 100).toFixed(2)}
-                                          </span>
-                                        )}
-                                      </div>
-                                    </Label>
-                                  </div>
-                                ))}
-                              </RadioGroup>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    )}
-
-                    <div className="border-t pt-6">
-                      <h3 className="font-semibold mb-4">{locale === 'zh' ? '配送信息' : 'Shipping Information'}</h3>
-                      
+                  <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="space-y-6">
+                    
+                    <div className="pt-2">
+                       {/* Shipping Info Fields */}
                       <div className="space-y-4">
                         <FormField
                           control={form.control}
@@ -444,6 +268,34 @@ export default function CustomizePage() {
 
                         <FormField
                           control={form.control}
+                          name="shippingCountry"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>{locale === 'zh' ? '国家' : 'Country'}</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder={locale === 'zh' ? '选择国家' : 'Select a country'} />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="US">{locale === 'zh' ? '美国' : 'United States'}</SelectItem>
+                                  <SelectItem value="CN">{locale === 'zh' ? '中国' : 'China'}</SelectItem>
+                                  <SelectItem value="CA">{locale === 'zh' ? '加拿大' : 'Canada'}</SelectItem>
+                                  <SelectItem value="UK">{locale === 'zh' ? '英国' : 'United Kingdom'}</SelectItem>
+                                  <SelectItem value="AU">{locale === 'zh' ? '澳大利亚' : 'Australia'}</SelectItem>
+                                  <SelectItem value="JP">{locale === 'zh' ? '日本' : 'Japan'}</SelectItem>
+                                  <SelectItem value="DE">{locale === 'zh' ? '德国' : 'Germany'}</SelectItem>
+                                  <SelectItem value="FR">{locale === 'zh' ? '法国' : 'France'}</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
                           name="shippingPostalCode"
                           render={({ field }) => (
                             <FormItem>
@@ -495,4 +347,3 @@ export default function CustomizePage() {
     </div>
   );
 }
-

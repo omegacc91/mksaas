@@ -1,6 +1,6 @@
 # MkSaaS
 
-Make AI SaaS in a weekend.
+Make Wheat straw painting in a weekend.
 
 The complete Next.js boilerplate for building profitable SaaS, with auth, payments, i18n, newsletter, dashboard, blog, docs, blocks, themes, SEO and more.
 
