@@ -180,5 +180,9 @@ export const EXAMPLE_PROMPTS = [
     en: 'Bamboo grove in gentle breeze',
     zh: '微风中的竹林',
   },
+  {
+    en: 'Black-gold decorative horse fac',
+    zh: '黑金装饰风马面',
+  },
 ];
 

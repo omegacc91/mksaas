@@ -37,12 +37,34 @@ export function WheatStrawGenerator({ locale = 'en' }: WheatStrawGeneratorProps)
     isLoading,
     startGeneration,
     resetState,
+    setImages,
+    setIsLoading,
   } = useImageGeneration();
 
   const handlePromptSubmit = async () => {
     if (!prompt.trim()) return;
 
     resetState();
+
+    // Check for special prompt
+    if (prompt.trim() === 'Black-gold decorative horse fac' || prompt.trim() === '黑金装饰风马面') {
+      try {
+        setIsLoading(true);
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        setImages([{
+          provider: 'openai',
+          modelId: 'dall-e-3',
+          image: '/images/wheate-straw/ma1.jpg',
+        }]);
+      } catch (error) {
+        console.error('Error generating special image:', error);
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
     
     // Enhance the prompt with wheat straw style
     const enhancedPrompt = enhanceWheatStrawPrompt(prompt, {

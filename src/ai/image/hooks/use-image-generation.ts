@@ -23,6 +23,8 @@ interface UseImageGenerationReturn {
   ) => Promise<void>;
   resetState: () => void;
   activePrompt: string;
+  setImages: React.Dispatch<React.SetStateAction<ImageResult[]>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function useImageGeneration(): UseImageGenerationReturn {
@@ -175,5 +177,7 @@ export function useImageGeneration(): UseImageGenerationReturn {
     startGeneration,
     resetState,
     activePrompt,
+    setImages,
+    setIsLoading,
   };
 }
